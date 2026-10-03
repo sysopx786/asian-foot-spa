@@ -1,0 +1,1 @@
+import{K as e}from"./seo-s5-jklKO.js";import{i as t}from"./pages-DwTtqMu1.js";import{o as n}from"./index-DjfWn8SZ.js";var r=e(),i=function(){let{slug:e}=n.useLoaderData();return(0,r.jsx)(t,{lang:`en`,slug:e})};export{i as component};
