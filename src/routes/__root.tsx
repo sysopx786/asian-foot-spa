@@ -13,13 +13,13 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#f4efe6" },
     ],
     links: [
-      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/svg+xml", href: `${import.meta.env.BASE_URL}favicon.svg` },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,460;0,9..144,560;1,9..144,460&family=Outfit:wght@400;500&family=Roboto:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,460;0,9..144,560;1,9..144,460&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;600&family=Outfit:wght@400;500&family=Roboto:wght@400;500&display=swap",
       },
       { rel: "manifest", href: "/__grok/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
@@ -31,7 +31,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const lang = pathname === "/es" || pathname.startsWith("/es/") ? "es" : "en";
+  const lang = documentLang(pathname);
   return (
     <html lang={lang} suppressHydrationWarning>
       <head>
@@ -50,6 +50,17 @@ function RootComponent() {
 
 function Missing() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const lang = pathname === "/es" || pathname.startsWith("/es/") ? "es" : "en";
-  return <NotFound lang={lang} />;
+  return <NotFound lang={contentLang(pathname)} />;
+}
+
+function documentLang(pathname: string) {
+  if (pathname === "/zh" || pathname.startsWith("/zh/")) return "zh-Hans";
+  if (pathname === "/es" || pathname.startsWith("/es/")) return "es";
+  return "en";
+}
+
+function contentLang(pathname: string) {
+  if (pathname === "/zh" || pathname.startsWith("/zh/")) return "zh" as const;
+  if (pathname === "/es" || pathname.startsWith("/es/")) return "es" as const;
+  return "en" as const;
 }

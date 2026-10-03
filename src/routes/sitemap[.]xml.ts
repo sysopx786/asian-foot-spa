@@ -16,7 +16,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         const urls = paths.flatMap((path) => {
           const en = path || "/";
           const es = path === "" ? "/es" : `/es${path}`;
-          return [en, es];
+          const zh = path === "" ? "/zh" : `/zh${path}`;
+          return [en, es, zh];
         });
         const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

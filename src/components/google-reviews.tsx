@@ -1,4 +1,5 @@
 import { useId } from "react";
+import type { Lang } from "@/content/site";
 import { barFills, googleReviews, googleReviewsUrl, googleWriteReviewUrl, type GoogleReview } from "@/content/google-reviews";
 
 const STAR =
@@ -123,14 +124,28 @@ function ReviewCard({ review }: { review: GoogleReview }) {
   );
 }
 
-export function GoogleReviews({ heading = "h1" }: { heading?: "h1" | "h2" }) {
+export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; heading?: "h1" | "h2" }) {
+  const title =
+    lang === "zh" ? "Google 评价摘要" : lang === "es" ? "Resumen de reseñas de Google" : "Google review summary";
+  const about =
+    lang === "zh"
+      ? "关于这份 Google 评价摘要"
+      : lang === "es"
+        ? "Sobre este resumen de reseñas de Google"
+        : "About this Google review summary";
+  const rated =
+    lang === "zh"
+      ? "47 条 Google 评价，5 分制 4.4 分。"
+      : lang === "es"
+        ? "4.4 de 5, a partir de 47 reseñas de Google."
+        : "Rated 4.4 out of 5 from 47 Google reviews.";
   const Title = heading;
   return (
-    <section className="g-reviews" aria-label="Google review summary">
+    <section className="g-reviews" aria-label={title}>
       <div className="g-reviews-inner">
         <div className="g-head">
-          <Title>Google review summary</Title>
-          <a className="g-info" href={googleReviewsUrl} aria-label="About this Google review summary">
+          <Title>{title}</Title>
+          <a className="g-info" href={googleReviewsUrl} aria-label={about}>
             <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9" fill="none" stroke="#5f6368" strokeWidth="1.4" />
               <circle cx="12" cy="8" r="0.9" fill="#5f6368" />
@@ -153,7 +168,7 @@ export function GoogleReviews({ heading = "h1" }: { heading?: "h1" | "h2" }) {
             <p className="g-score">4.4</p>
             <StarRow value={4.4} size={18} empty="#e8eaed" />
             <p className="g-count">(47)</p>
-            <p className="sr-only">Rated 4.4 out of 5 from 47 Google reviews.</p>
+            <p className="sr-only">{rated}</p>
           </div>
         </div>
         <div className="g-cards">

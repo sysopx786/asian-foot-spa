@@ -49,7 +49,7 @@ jobs:
           mkdir -p site/media
           cp -a public/media/. site/media/
           cp -a public/logo-header.jpg public/favicon.svg public/og.jpg public/logo-wordmark.svg site/ 2>/dev/null || true
-          routes="/ /es /gallery /reviews /faq /visit /privacy /locations /locations/phoenixville /services /services/reflexology /services/swedish /services/deep-tissue /services/shiatsu /services/thai /services/hot-stone /services/aromatherapy /services/couples /services/cupping /es/gallery /es/reviews /es/faq /es/visit /es/privacy /es/locations /es/locations/phoenixville /es/services"
+          routes="/ /es /zh /gallery /reviews /faq /visit /privacy /locations /locations/phoenixville /services /services/reflexology /services/swedish /services/deep-tissue /services/shiatsu /services/thai /services/hot-stone /services/aromatherapy /services/couples /services/cupping /es/gallery /es/reviews /es/faq /es/visit /es/privacy /es/locations /es/locations/phoenixville /es/services /zh/gallery /zh/reviews /zh/faq /zh/visit /zh/privacy /zh/locations /zh/locations/phoenixville /zh/services"
           for route in $routes; do
             dest="site${route}/index.html"
             mkdir -p "$(dirname "$dest")"
@@ -65,6 +65,10 @@ jobs:
             -e 's#href="/favicon.svg"#href="/asian-foot-spa/favicon.svg"#g' \
             -e 's#href="/og.jpg"#href="/asian-foot-spa/og.jpg"#g'
           grep -q '/asian-foot-spa/logo-header.jpg' site/index.html
+          if grep -R --include='*.html' --include='*.js' -n '"/media/' site; then
+            echo "photo URLs are missing the /asian-foot-spa prefix"
+            exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

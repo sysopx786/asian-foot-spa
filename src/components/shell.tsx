@@ -6,7 +6,9 @@ import { ArrowUp, Menu, Phone, Search, X } from "lucide-react";
 import {
   locationPath,
   locations,
-  otherLangPath,
+  langPaths,
+  langLabel,
+  pageCopy,
   pathFor,
   searchIndex,
   servicePath,
@@ -37,7 +39,7 @@ export function TextLink({
 
 function StudioFilm({ lang }: { lang: Lang }) {
   return (
-    <section className="wrap pt-6" aria-label={lang === "en" ? "Studio walkthrough" : "Recorrido del estudio"}>
+    <section className="wrap pt-6" aria-label={lang === "zh" ? "工作室走一遍" : lang === "es" ? "Recorrido del estudio" : "Studio walkthrough"}>
       <figure>
         <div className="frame-video">
           <video
@@ -52,14 +54,16 @@ function StudioFilm({ lang }: { lang: Lang }) {
             controls
             preload="auto"
             aria-label={
-              lang === "en"
-                ? "Walk through Asian Foot Spa: the door, the waiting room, and a treatment room."
-                : "Recorrido por Asian Foot Spa: la puerta, la sala de espera y una sala de tratamiento."
+              lang === "zh"
+                ? "走过 Asian Foot Spa：门口、等候室和一间理疗室。"
+                : lang === "es"
+                ? "Recorrido por Asian Foot Spa: la puerta, la sala de espera y una sala de tratamiento."
+                : "Walk through Asian Foot Spa: the door, the waiting room, and a treatment room."
             }
           />
         </div>
         <figcaption className="mt-3 text-sm text-muted">
-          {lang === "en" ? "A walk through the studio." : "Un recorrido por el estudio."}
+          {lang === "zh" ? "工作室里走一遍。" : lang === "es" ? "Un recorrido por el estudio." : "A walk through the studio."}
         </figcaption>
       </figure>
     </section>
@@ -68,7 +72,7 @@ function StudioFilm({ lang }: { lang: Lang }) {
 
 export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
   const path = useRouterState({ select: (state) => state.location.pathname });
-  const home = path === "/" || path === "/es" || path === "/es/";
+  const home = path === "/" || path === "/es" || path === "/es/" || path === "/zh" || path === "/zh/";
   return (
     <>
       <a className="skip" href="#content">
@@ -86,7 +90,7 @@ export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
 
 function Header({ lang }: { lang: Lang }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const alt = otherLangPath(pathname);
+  const paths = langPaths(pathname);
   const [panel, setPanel] = useState<"services" | "studios" | "mobile" | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -109,19 +113,7 @@ function Header({ lang }: { lang: Lang }) {
   }, []);
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-line bg-paper">
-      <div className="wrap hidden items-center justify-between gap-4 py-2 md:flex">
-        <p className="text-xs tracking-widest text-muted uppercase">
-          {lang === "en" ? "Phoenixville · Open 7 days, 10–9" : "Phoenixville · Abierto los 7 días, 10–9"}
-        </p>
-        <div className="flex gap-5">
-          {locations.map((loc) => (
-            <a key={loc.slug} className="text-link text-sm" href={`tel:${loc.phoneTel}`}>
-              {loc.name[lang]} {loc.phoneDisplay}
-            </a>
-          ))}
-        </div>
-      </div>
+    <header className="site-header no-print">
       <div className="header-main wrap">
         <TextLink to={pathFor(lang, "home")} className="logo-home">
           <img
@@ -156,7 +148,7 @@ function Header({ lang }: { lang: Lang }) {
           </TextLink>
         </nav>
         <div className="header-tools">
-          <LangSwitch href={alt.href} label={alt.lang === "es" ? "ES" : "EN"} />
+          <LangSwitch lang={lang} paths={paths} />
           <button
             className="btn"
             type="button"
@@ -177,7 +169,7 @@ function Header({ lang }: { lang: Lang }) {
         </div>
       </div>
       {panel === "services" && (
-        <div className="hidden border-t border-line lg:block">
+        <div className="header-panel hidden border-t lg:block">
           <div className="wrap grid gap-x-10 py-6 sm:grid-cols-2">
             {services.map((service) => (
               <TextLink
@@ -193,7 +185,7 @@ function Header({ lang }: { lang: Lang }) {
         </div>
       )}
       {panel === "studios" && (
-        <div className="hidden border-t border-line lg:block">
+        <div className="header-panel hidden border-t lg:block">
           <div className="wrap grid gap-8 py-6 md:grid-cols-2">
             {locations.map((loc) => (
               <TextLink
@@ -216,7 +208,7 @@ function Header({ lang }: { lang: Lang }) {
         </div>
       )}
       {panel === "mobile" && (
-        <nav className="max-h-[70vh] overflow-y-auto border-t border-line lg:hidden" aria-label="Mobile">
+        <nav className="header-panel max-h-[70vh] overflow-y-auto border-t lg:hidden" aria-label="Mobile">
           <div className="wrap grid gap-2 py-4 pb-8">
             <TextLink className="btn justify-start" to={pathFor(lang, "visit")} onClick={() => setPanel(null)}>
               {ui.navVisit[lang]}
@@ -280,11 +272,21 @@ function PanelButton({
   );
 }
 
-function LangSwitch({ href, label }: { href: string; label: string }) {
+function LangSwitch({ lang, paths }: { lang: Lang; paths: Record<Lang, string> }) {
   return (
-    <TextLink to={href} className="btn btn-line">
-      {label}
-    </TextLink>
+    <nav className="lang-switch" aria-label={ui.language[lang]}>
+      {(["en", "es", "zh"] as const).map((code) =>
+        code === lang ? (
+          <span key={code} aria-current="page">
+            {langLabel[code]}
+          </span>
+        ) : (
+          <TextLink key={code} to={paths[code]}>
+            {langLabel[code]}
+          </TextLink>
+        ),
+      )}
+    </nav>
   );
 }
 
@@ -345,7 +347,7 @@ function SearchDialog({
 
 function Footer({ lang }: { lang: Lang }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const alt = otherLangPath(pathname);
+  const paths = langPaths(pathname);
   return (
     <footer className="no-print border-t border-line bg-paper-2 pb-28 lg:pb-12">
       <div className="wrap grid gap-10 py-12 md:grid-cols-12">
@@ -394,9 +396,7 @@ function Footer({ lang }: { lang: Lang }) {
         <TextLink className="text-link" to={pathFor(lang, "privacy")}>
           {ui.privacy[lang]}
         </TextLink>
-        <TextLink className="text-link" to={alt.href}>
-          {alt.lang === "es" ? "Español" : "English"}
-        </TextLink>
+        <LangSwitch lang={lang} paths={paths} />
         {locations[0].links.map((link) => (
           <a key={link.href} className="text-link" href={link.href} rel="noreferrer">
             {link.label}
@@ -458,7 +458,7 @@ export function NotFound({ lang }: { lang: Lang }) {
       <div className="wrap py-24">
         <p className="eyebrow">404</p>
         <h1 className="mt-3 font-display text-5xl">
-          {lang === "en" ? "That page is not on the menu." : "Esa página no está en el menú."}
+          {pageCopy.notFound[lang]}
         </h1>
         <TextLink to={pathFor(lang, "home")} className="btn btn-primary mt-8">
           {ui.home[lang]}

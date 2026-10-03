@@ -27,10 +27,20 @@ import { Route as LocationsIndexRouteImport } from './routes/locations/index'
 import { Route as LocationsSlugRouteImport } from './routes/locations/$slug'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
+import { Route as ZhIndexRouteImport } from './routes/zh/index'
+import { Route as ZhFaqRouteImport } from './routes/zh/faq'
+import { Route as ZhGalleryRouteImport } from './routes/zh/gallery'
+import { Route as ZhPrivacyRouteImport } from './routes/zh/privacy'
+import { Route as ZhReviewsRouteImport } from './routes/zh/reviews'
+import { Route as ZhVisitRouteImport } from './routes/zh/visit'
 import { Route as EsLocationsIndexRouteImport } from './routes/es/locations/index'
 import { Route as EsLocationsSlugRouteImport } from './routes/es/locations/$slug'
 import { Route as EsServicesIndexRouteImport } from './routes/es/services/index'
 import { Route as EsServicesSlugRouteImport } from './routes/es/services/$slug'
+import { Route as ZhLocationsIndexRouteImport } from './routes/zh/locations/index'
+import { Route as ZhLocationsSlugRouteImport } from './routes/zh/locations/$slug'
+import { Route as ZhServicesIndexRouteImport } from './routes/zh/services/index'
+import { Route as ZhServicesSlugRouteImport } from './routes/zh/services/$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -122,6 +132,36 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZhIndexRoute = ZhIndexRouteImport.update({
+  id: '/zh/',
+  path: '/zh/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhFaqRoute = ZhFaqRouteImport.update({
+  id: '/zh/faq',
+  path: '/zh/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhGalleryRoute = ZhGalleryRouteImport.update({
+  id: '/zh/gallery',
+  path: '/zh/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhPrivacyRoute = ZhPrivacyRouteImport.update({
+  id: '/zh/privacy',
+  path: '/zh/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhReviewsRoute = ZhReviewsRouteImport.update({
+  id: '/zh/reviews',
+  path: '/zh/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhVisitRoute = ZhVisitRouteImport.update({
+  id: '/zh/visit',
+  path: '/zh/visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EsLocationsIndexRoute = EsLocationsIndexRouteImport.update({
   id: '/es/locations/',
   path: '/es/locations/',
@@ -142,6 +182,26 @@ const EsServicesSlugRoute = EsServicesSlugRouteImport.update({
   path: '/es/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZhLocationsIndexRoute = ZhLocationsIndexRouteImport.update({
+  id: '/zh/locations/',
+  path: '/zh/locations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhLocationsSlugRoute = ZhLocationsSlugRouteImport.update({
+  id: '/zh/locations/$slug',
+  path: '/zh/locations/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhServicesIndexRoute = ZhServicesIndexRouteImport.update({
+  id: '/zh/services/',
+  path: '/zh/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZhServicesSlugRoute = ZhServicesSlugRouteImport.update({
+  id: '/zh/services/$slug',
+  path: '/zh/services/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -159,13 +219,23 @@ export interface FileRoutesByFullPath {
   '/es/visit': typeof EsVisitRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/zh/faq': typeof ZhFaqRoute
+  '/zh/gallery': typeof ZhGalleryRoute
+  '/zh/privacy': typeof ZhPrivacyRoute
+  '/zh/reviews': typeof ZhReviewsRoute
+  '/zh/visit': typeof ZhVisitRoute
   '/es/': typeof EsIndexRoute
   '/locations/': typeof LocationsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/zh/': typeof ZhIndexRoute
   '/es/locations/$slug': typeof EsLocationsSlugRoute
   '/es/services/$slug': typeof EsServicesSlugRoute
+  '/zh/locations/$slug': typeof ZhLocationsSlugRoute
+  '/zh/services/$slug': typeof ZhServicesSlugRoute
   '/es/locations/': typeof EsLocationsIndexRoute
   '/es/services/': typeof EsServicesIndexRoute
+  '/zh/locations/': typeof ZhLocationsIndexRoute
+  '/zh/services/': typeof ZhServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -183,13 +253,23 @@ export interface FileRoutesByTo {
   '/es/visit': typeof EsVisitRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/zh/faq': typeof ZhFaqRoute
+  '/zh/gallery': typeof ZhGalleryRoute
+  '/zh/privacy': typeof ZhPrivacyRoute
+  '/zh/reviews': typeof ZhReviewsRoute
+  '/zh/visit': typeof ZhVisitRoute
   '/es': typeof EsIndexRoute
   '/locations': typeof LocationsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/zh': typeof ZhIndexRoute
   '/es/locations/$slug': typeof EsLocationsSlugRoute
   '/es/services/$slug': typeof EsServicesSlugRoute
+  '/zh/locations/$slug': typeof ZhLocationsSlugRoute
+  '/zh/services/$slug': typeof ZhServicesSlugRoute
   '/es/locations': typeof EsLocationsIndexRoute
   '/es/services': typeof EsServicesIndexRoute
+  '/zh/locations': typeof ZhLocationsIndexRoute
+  '/zh/services': typeof ZhServicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -208,13 +288,23 @@ export interface FileRoutesById {
   '/es/visit': typeof EsVisitRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/zh/faq': typeof ZhFaqRoute
+  '/zh/gallery': typeof ZhGalleryRoute
+  '/zh/privacy': typeof ZhPrivacyRoute
+  '/zh/reviews': typeof ZhReviewsRoute
+  '/zh/visit': typeof ZhVisitRoute
   '/es/': typeof EsIndexRoute
   '/locations/': typeof LocationsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/zh/': typeof ZhIndexRoute
   '/es/locations/$slug': typeof EsLocationsSlugRoute
   '/es/services/$slug': typeof EsServicesSlugRoute
+  '/zh/locations/$slug': typeof ZhLocationsSlugRoute
+  '/zh/services/$slug': typeof ZhServicesSlugRoute
   '/es/locations/': typeof EsLocationsIndexRoute
   '/es/services/': typeof EsServicesIndexRoute
+  '/zh/locations/': typeof ZhLocationsIndexRoute
+  '/zh/services/': typeof ZhServicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -234,13 +324,23 @@ export interface FileRouteTypes {
     | '/es/visit'
     | '/locations/$slug'
     | '/services/$slug'
+    | '/zh/faq'
+    | '/zh/gallery'
+    | '/zh/privacy'
+    | '/zh/reviews'
+    | '/zh/visit'
     | '/es/'
     | '/locations/'
     | '/services/'
+    | '/zh/'
     | '/es/locations/$slug'
     | '/es/services/$slug'
+    | '/zh/locations/$slug'
+    | '/zh/services/$slug'
     | '/es/locations/'
     | '/es/services/'
+    | '/zh/locations/'
+    | '/zh/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -258,13 +358,23 @@ export interface FileRouteTypes {
     | '/es/visit'
     | '/locations/$slug'
     | '/services/$slug'
+    | '/zh/faq'
+    | '/zh/gallery'
+    | '/zh/privacy'
+    | '/zh/reviews'
+    | '/zh/visit'
     | '/es'
     | '/locations'
     | '/services'
+    | '/zh'
     | '/es/locations/$slug'
     | '/es/services/$slug'
+    | '/zh/locations/$slug'
+    | '/zh/services/$slug'
     | '/es/locations'
     | '/es/services'
+    | '/zh/locations'
+    | '/zh/services'
   id:
     | '__root__'
     | '/'
@@ -282,13 +392,23 @@ export interface FileRouteTypes {
     | '/es/visit'
     | '/locations/$slug'
     | '/services/$slug'
+    | '/zh/faq'
+    | '/zh/gallery'
+    | '/zh/privacy'
+    | '/zh/reviews'
+    | '/zh/visit'
     | '/es/'
     | '/locations/'
     | '/services/'
+    | '/zh/'
     | '/es/locations/$slug'
     | '/es/services/$slug'
+    | '/zh/locations/$slug'
+    | '/zh/services/$slug'
     | '/es/locations/'
     | '/es/services/'
+    | '/zh/locations/'
+    | '/zh/services/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -307,13 +427,23 @@ export interface RootRouteChildren {
   EsVisitRoute: typeof EsVisitRoute
   LocationsSlugRoute: typeof LocationsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ZhFaqRoute: typeof ZhFaqRoute
+  ZhGalleryRoute: typeof ZhGalleryRoute
+  ZhPrivacyRoute: typeof ZhPrivacyRoute
+  ZhReviewsRoute: typeof ZhReviewsRoute
+  ZhVisitRoute: typeof ZhVisitRoute
   EsIndexRoute: typeof EsIndexRoute
   LocationsIndexRoute: typeof LocationsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
+  ZhIndexRoute: typeof ZhIndexRoute
   EsLocationsSlugRoute: typeof EsLocationsSlugRoute
   EsServicesSlugRoute: typeof EsServicesSlugRoute
+  ZhLocationsSlugRoute: typeof ZhLocationsSlugRoute
+  ZhServicesSlugRoute: typeof ZhServicesSlugRoute
   EsLocationsIndexRoute: typeof EsLocationsIndexRoute
   EsServicesIndexRoute: typeof EsServicesIndexRoute
+  ZhLocationsIndexRoute: typeof ZhLocationsIndexRoute
+  ZhServicesIndexRoute: typeof ZhServicesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -444,6 +574,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zh/': {
+      id: '/zh/'
+      path: '/zh'
+      fullPath: '/zh/'
+      preLoaderRoute: typeof ZhIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/faq': {
+      id: '/zh/faq'
+      path: '/zh/faq'
+      fullPath: '/zh/faq'
+      preLoaderRoute: typeof ZhFaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/gallery': {
+      id: '/zh/gallery'
+      path: '/zh/gallery'
+      fullPath: '/zh/gallery'
+      preLoaderRoute: typeof ZhGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/privacy': {
+      id: '/zh/privacy'
+      path: '/zh/privacy'
+      fullPath: '/zh/privacy'
+      preLoaderRoute: typeof ZhPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/reviews': {
+      id: '/zh/reviews'
+      path: '/zh/reviews'
+      fullPath: '/zh/reviews'
+      preLoaderRoute: typeof ZhReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/visit': {
+      id: '/zh/visit'
+      path: '/zh/visit'
+      fullPath: '/zh/visit'
+      preLoaderRoute: typeof ZhVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/es/locations/': {
       id: '/es/locations/'
       path: '/es/locations'
@@ -472,6 +644,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EsServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zh/locations/': {
+      id: '/zh/locations/'
+      path: '/zh/locations'
+      fullPath: '/zh/locations/'
+      preLoaderRoute: typeof ZhLocationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/locations/$slug': {
+      id: '/zh/locations/$slug'
+      path: '/zh/locations/$slug'
+      fullPath: '/zh/locations/$slug'
+      preLoaderRoute: typeof ZhLocationsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/services/': {
+      id: '/zh/services/'
+      path: '/zh/services'
+      fullPath: '/zh/services/'
+      preLoaderRoute: typeof ZhServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zh/services/$slug': {
+      id: '/zh/services/$slug'
+      path: '/zh/services/$slug'
+      fullPath: '/zh/services/$slug'
+      preLoaderRoute: typeof ZhServicesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -491,13 +691,23 @@ const rootRouteChildren: RootRouteChildren = {
   EsVisitRoute: EsVisitRoute,
   LocationsSlugRoute: LocationsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  ZhFaqRoute: ZhFaqRoute,
+  ZhGalleryRoute: ZhGalleryRoute,
+  ZhPrivacyRoute: ZhPrivacyRoute,
+  ZhReviewsRoute: ZhReviewsRoute,
+  ZhVisitRoute: ZhVisitRoute,
   EsIndexRoute: EsIndexRoute,
   LocationsIndexRoute: LocationsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
+  ZhIndexRoute: ZhIndexRoute,
   EsLocationsSlugRoute: EsLocationsSlugRoute,
   EsServicesSlugRoute: EsServicesSlugRoute,
+  ZhLocationsSlugRoute: ZhLocationsSlugRoute,
+  ZhServicesSlugRoute: ZhServicesSlugRoute,
   EsLocationsIndexRoute: EsLocationsIndexRoute,
   EsServicesIndexRoute: EsServicesIndexRoute,
+  ZhLocationsIndexRoute: ZhLocationsIndexRoute,
+  ZhServicesIndexRoute: ZhServicesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,4 +1,6 @@
-import type { Seo } from "@/content/site";
+import type { Lang, Seo } from "@/content/site";
+
+const ogLocale: Record<Lang, string> = { en: "en_US", es: "es_ES", zh: "zh_CN" };
 
 export function pageHead(seo: Seo) {
   return {
@@ -6,12 +8,14 @@ export function pageHead(seo: Seo) {
       { title: seo.title },
       { name: "description", content: seo.description },
       { name: "robots", content: "index, follow" },
+      { property: "og:locale", content: ogLocale[seo.lang] },
     ],
     links: [
-      { rel: "canonical", href: seo.lang === "es" ? seo.altPath : seo.path },
-      { rel: "alternate", hrefLang: "en", href: seo.path },
-      { rel: "alternate", hrefLang: "es", href: seo.altPath },
-      { rel: "alternate", hrefLang: "x-default", href: seo.path },
+      { rel: "canonical", href: seo.path },
+      { rel: "alternate", hrefLang: "en", href: seo.alternates.en },
+      { rel: "alternate", hrefLang: "es", href: seo.alternates.es },
+      { rel: "alternate", hrefLang: "zh-Hans", href: seo.alternates.zh },
+      { rel: "alternate", hrefLang: "x-default", href: seo.alternates.en },
     ],
   };
 }
