@@ -29,8 +29,14 @@ jobs:
           GITHUB_PAGES: "1"
       - name: Collect static output
         run: |
-          if [ -d dist/client ]; then cp -a dist/client site; elif [ -d dist ]; then cp -a dist site; else echo "No dist output" && ls -la && exit 1; fi
-          test -f site/media/studio-walkthrough.mp4 || cp -a public/media site/media
+          mkdir -p site
+          if [ -d .vercel/output/static ]; then cp -a .vercel/output/static/. site/; fi
+          if [ -d dist/client ]; then cp -a dist/client/. site/; elif [ -d dist ]; then cp -a dist/. site/; fi
+          mkdir -p site/media
+          cp -a public/media/. site/media/
+          cp -a public/logo-header.jpg public/favicon.svg public/og.jpg public/logo-wordmark.svg site/ 2>/dev/null || true
+          find site -maxdepth 2 -type d -print
+          test -f site/media/studio-walkthrough.mp4
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
