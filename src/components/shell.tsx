@@ -126,7 +126,7 @@ function Header({ lang }: { lang: Lang }) {
         <TextLink to={pathFor(lang, "home")} className="logo-home">
           <img
             className="logo-wordmark"
-            src="/logo-header.jpg"
+            src={`${import.meta.env.BASE_URL}logo-header.jpg`}
             alt="Asian Foot Spa"
             width={3190}
             height={272}

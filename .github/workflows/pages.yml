@@ -59,6 +59,12 @@ jobs:
           done
           if [ ! -s site/index.html ]; then echo '--- server log ---'; cat /tmp/server.log; exit 1; fi
           grep -q studio-walkthrough site/index.html
+          find site -name '*.html' -print0 | xargs -0 sed -i \
+            -e 's#src="/logo-header.jpg"#src="/asian-foot-spa/logo-header.jpg"#g' \
+            -e 's#src="/media/#src="/asian-foot-spa/media/#g' \
+            -e 's#href="/favicon.svg"#href="/asian-foot-spa/favicon.svg"#g' \
+            -e 's#href="/og.jpg"#href="/asian-foot-spa/og.jpg"#g'
+          grep -q '/asian-foot-spa/logo-header.jpg' site/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
