@@ -262,6 +262,12 @@ export const rates: Array<{ id: string; name: Localized; price: string; detail: 
     price: "$15",
     detail: t("Its own line. No length is printed.", "Línea propia. No imprime duración.", "单独一行。没有印时长。"),
   },
+  {
+    id: "hot-stone",
+    name: t("Hot stone", "Piedras calientes", "热石"),
+    price: "Free",
+    detail: t("On the front window as Free Hot Stone.", "En la ventana: Free Hot Stone.", "橱窗上写着 Free Hot Stone。"),
+  },
 ];
 
 export const cardFees = [

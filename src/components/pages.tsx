@@ -106,7 +106,7 @@ function RateBoard({ lang }: { lang: Lang }) {
               <span className="block font-display text-3xl">{rate.name[lang]}</span>
               <span className="mt-1 block text-sm text-muted">{rate.detail[lang]}</span>
             </span>
-            <span className="text-sm tracking-wide">{rate.price}</span>
+            <span className="text-sm tracking-wide">{rate.price === "Free" ? (lang === "es" ? "Gratis" : lang === "zh" ? "免费" : "Free") : rate.price}</span>
           </div>
         ))}
         <PaymentNote lang={lang} />
@@ -343,7 +343,7 @@ export function ServicesPage({ lang }: { lang: Lang }) {
       name: rate.name.en,
       offers: {
         "@type": "Offer",
-        price: rate.price.replace("$", ""),
+        price: rate.price === "Free" ? "0" : rate.price.replace("$", ""),
         priceCurrency: "USD",
       },
     })),
