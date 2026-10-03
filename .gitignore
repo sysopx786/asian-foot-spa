@@ -10,3 +10,16 @@ attachments
 .env.*
 *.log
 .DS_Store
+
+# Published GitHub Pages output
+/assets/
+/index.html
+/es/
+/zh/
+/faq/
+/gallery/
+/locations/
+/privacy/
+/reviews/
+/services/
+/visit/

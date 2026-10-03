@@ -1,1 +1,0 @@
-import{K as e}from"./seo-s5-jklKO.js";import{r as t}from"./pages-DwTtqMu1.js";var n=e(),r=()=>(0,n.jsx)(t,{lang:`es`});export{r as component};
