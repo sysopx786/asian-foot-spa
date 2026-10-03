@@ -173,8 +173,6 @@ export function HomePage({ lang }: { lang: Lang }) {
         </div>
       </section>
 
-      <GoogleReviews heading="h2" />
-
       <section className="wrap py-12" aria-labelledby="menu-heading">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -285,6 +283,8 @@ export function HomePage({ lang }: { lang: Lang }) {
           </TextLink>
         </div>
       </section>
+
+      <GoogleReviews heading="h2" />
     </Shell>
   );
 }
