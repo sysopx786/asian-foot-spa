@@ -168,6 +168,54 @@ html[lang="zh-Hans"] {
     color: inherit;
   }
 
+
+  .pay-note {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .pay-table-wrap {
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+
+  .pay-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pay-table th,
+  .pay-table td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .pay-table th {
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .pay-table td {
+    color: var(--color-muted);
+  }
+
+  .pay-notes {
+    margin-top: 0.75rem;
+    padding-left: 1.1rem;
+    list-style: disc;
+  }
+
+  .pay-notes li {
+    margin-top: 0.45rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
   .menu-row:hover dt {
     color: var(--color-moss);
   }

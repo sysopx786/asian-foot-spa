@@ -264,7 +264,55 @@ export const rates: Array<{ id: string; name: Localized; price: string; detail: 
   },
 ];
 
-export const cardFinePrint = t("The card says to pay the required rate on a credit or debit card. It does not mention cash. A second figure sits beside each rate: $3 on $50, $4.20 on $70, $6 on $100, $7.80 on $130, $11.40 on $190, and $0.90 on $15. Each is 6% of the number beside it. The card does not label those figures. The front window says Free Hot Stone. That is not a separate line on this card. Anything not printed here, ask by phone.", "La tarjeta dice que se pague la tarifa requerida con tarjeta de crédito o débito. No menciona efectivo. Una segunda cifra está junto a cada tarifa: $3 sobre $50, $4.20 sobre $70, $6 sobre $100, $7.80 sobre $130, $11.40 sobre $190 y $0.90 sobre $15. Cada una es el 6% del número de al lado. La tarjeta no etiqueta esas cifras. La ventana dice Free Hot Stone. Eso no es una línea aparte en esta tarjeta. Lo que no esté impreso aquí, pregunte por teléfono.", "卡片写明须用信用卡或借记卡支付规定价格。没有提到现金。每个价格旁另有一个数字：$50 旁是 $3，$70 旁是 $4.20，$100 旁是 $6，$130 旁是 $7.80，$190 旁是 $11.40，$15 旁是 $0.90。每个数字是旁边金额的 6%。卡片没有给这些数字加标签。橱窗写着 Free Hot Stone。那不是这张卡片上的单独一行。这里没印的，请打电话问。");
+export const cardFees = [
+  { cash: "$15.00", fee: "+$0.90", card: "$15.90" },
+  { cash: "$50.00", fee: "+$3.00", card: "$53.00" },
+  { cash: "$70.00", fee: "+$4.20", card: "$74.20" },
+  { cash: "$100.00", fee: "+$6.00", card: "$106.00" },
+  { cash: "$130.00", fee: "+$7.80", card: "$137.80" },
+  { cash: "$190.00", fee: "+$11.40", card: "$201.40" },
+];
+
+export const paymentCopy = {
+  title: t(
+    "Payment Information – Cash vs. Card",
+    "Información de pago: efectivo o tarjeta",
+    "付款说明：现金与刷卡",
+  ),
+  lead: t(
+    "Paying with cash is cheaper because the additional 6% card fee does not apply. When paying by credit or debit card, 6% is added to the listed service price.",
+    "Pagar en efectivo es más barato porque no se aplica el cargo adicional del 6% por tarjeta. Al pagar con tarjeta de crédito o débito, se añade un 6% al precio indicado del servicio.",
+    "付现金更便宜，因为不加 6% 刷卡费。用信用卡或借记卡付款时，在标价上加 6%。",
+  ),
+  columns: {
+    cash: t("Cash Price", "Precio en efectivo", "现金价"),
+    fee: t("6% Card Fee", "Cargo del 6% con tarjeta", "6% 刷卡费"),
+    total: t("Card Total", "Total con tarjeta", "刷卡合计"),
+  },
+  notesTitle: t("Additional Notes", "Notas adicionales", "补充说明"),
+  notes: [
+    t(
+      "Cash: Pay only the listed price, with no additional 6% fee.",
+      "Efectivo: pague solo el precio indicado, sin el cargo adicional del 6%.",
+      "现金：只付标价，不加 6% 费用。",
+    ),
+    t(
+      "Credit or debit card: Pay the listed price plus 6%.",
+      "Tarjeta de crédito o débito: pague el precio indicado más el 6%.",
+      "信用卡或借记卡：付标价再加 6%。",
+    ),
+    t(
+      "Free Hot Stone: Advertised on the front window but not listed separately on the card.",
+      "Free Hot Stone: se anuncia en la ventana, pero no aparece como línea aparte en la tarjeta.",
+      "Free Hot Stone：橱窗上有广告，卡片上没有单独一行。",
+    ),
+    t(
+      "Clarification: The printed card shows the 6% figures without labeling them or explaining the cash option. Contact the business to confirm these payment terms and other details.",
+      "Aclaración: la tarjeta impresa muestra las cifras del 6% sin etiquetarlas ni explicar la opción de efectivo. Llame al negocio para confirmar estas condiciones de pago y otros detalles.",
+      "说明：印刷卡片列出了 6% 的数字，但没有标注，也没有说明现金选项。请联系店家确认这些付款方式和其他细节。",
+    ),
+  ],
+};
 
 export const reviews: Array<{
   quote: Localized;
@@ -379,9 +427,9 @@ export const faqs: Array<{
     group: "practical",
     q: t("How do I pay?", "¿Cómo pago?", "怎么付款？"),
     a: t(
-      "Payment is explained on the menu. The card asks for a credit or debit card and does not mention cash. Credit cards, debit cards, and NFC mobile payments are accepted.",
-      "El pago se explica en el menú. La tarjeta pide tarjeta de crédito o débito y no menciona efectivo. Se aceptan tarjetas de crédito, tarjetas de débito y pagos móviles NFC.",
-      "付款写在菜单上。卡片要求信用卡或借记卡，没有提到现金。接受信用卡、借记卡和 NFC 移动支付。",
+      "Cash is the listed price, with no extra fee. A credit or debit card adds 6%. The menu shows both. Credit cards, debit cards, NFC mobile payments, and cash are accepted.",
+      "El efectivo es el precio indicado, sin cargo extra. Una tarjeta de crédito o débito añade un 6%. El menú muestra ambos. Se aceptan tarjetas de crédito, tarjetas de débito, pagos móviles NFC y efectivo.",
+      "现金是标价，不加费用。信用卡或借记卡加 6%。菜单上两种都有。接受信用卡、借记卡、NFC 移动支付和现金。",
     ),
   },
   {
@@ -811,9 +859,10 @@ export const amenities: Array<{ title: Localized; items: Localized[] }> = [
   {
     title: t("Payments", "Pagos", "付款"),
     items: [
-      t("Credit cards", "Tarjetas de crédito", "信用卡"),
-      t("Debit cards", "Tarjetas de débito", "借记卡"),
-      t("NFC mobile payments", "Pagos móviles NFC", "NFC 移动支付"),
+      t("Cash, listed price", "Efectivo, precio indicado", "现金，标价"),
+      t("Credit cards, plus 6%", "Tarjetas de crédito, más 6%", "信用卡，加 6%"),
+      t("Debit cards, plus 6%", "Tarjetas de débito, más 6%", "借记卡，加 6%"),
+      t("NFC mobile payments, plus 6%", "Pagos móviles NFC, más 6%", "NFC 移动支付，加 6%"),
     ],
   },
 ];

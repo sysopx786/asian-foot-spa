@@ -18,7 +18,8 @@ import {
   pageCopy,
   pathFor,
   rates,
-  cardFinePrint,
+  cardFees,
+  paymentCopy,
   servicePath,
   services,
   ui,
@@ -108,9 +109,48 @@ function RateBoard({ lang }: { lang: Lang }) {
             <span className="text-sm tracking-wide">{rate.price}</span>
           </div>
         ))}
-        <p className="mt-4 text-sm text-muted">{cardFinePrint[lang]}</p>
+        <PaymentNote lang={lang} />
       </div>
     </div>
+  );
+}
+
+
+function PaymentNote({ lang }: { lang: Lang }) {
+  return (
+    <section className="pay-note" aria-labelledby="pay-note-heading">
+      <h3 id="pay-note-heading" className="font-display text-2xl">
+        {paymentCopy.title[lang]}
+      </h3>
+      <p className="mt-3 text-sm text-muted">{paymentCopy.lead[lang]}</p>
+      <div className="pay-table-wrap">
+        <table className="pay-table">
+          <caption className="sr-only">{paymentCopy.title[lang]}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{paymentCopy.columns.cash[lang]}</th>
+              <th scope="col">{paymentCopy.columns.fee[lang]}</th>
+              <th scope="col">{paymentCopy.columns.total[lang]}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cardFees.map((row) => (
+              <tr key={row.cash}>
+                <td>{row.cash}</td>
+                <td>{row.fee}</td>
+                <td>{row.card}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h4 className="mt-6 text-sm font-medium tracking-wide">{paymentCopy.notesTitle[lang]}</h4>
+      <ul className="pay-notes">
+        {paymentCopy.notes.map((note) => (
+          <li key={note.en}>{note[lang]}</li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -130,7 +170,7 @@ export function HomePage({ lang }: { lang: Lang }) {
         "@type": "DaySpa",
         name: `Asian Foot Spa ${loc.name.en}`,
         telephone: loc.phoneTel,
-        paymentAccepted: "Credit card, Debit card, NFC mobile payments",
+        paymentAccepted: "Cash, Credit card, Debit card, NFC mobile payments",
         amenityFeature: {
           "@type": "LocationFeatureSpecification",
           name: "Wheelchair accessible parking lot",
@@ -460,7 +500,7 @@ export function LocationDetail({ lang, slug }: { lang: Lang; slug: string }) {
     "@type": "DaySpa",
     name: `Asian Foot Spa ${loc.name.en}`,
     telephone: loc.phoneTel,
-    paymentAccepted: "Credit card, Debit card, NFC mobile payments",
+    paymentAccepted: "Cash, Credit card, Debit card, NFC mobile payments",
     amenityFeature: {
       "@type": "LocationFeatureSpecification",
       name: "Wheelchair accessible parking lot",
