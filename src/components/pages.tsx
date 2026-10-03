@@ -197,27 +197,19 @@ export function HomePage({ lang }: { lang: Lang }) {
   return (
     <Shell lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(graph) }} />
-      <section className="wrap grid items-end gap-10 pt-8 pb-6 lg:grid-cols-12 lg:pt-10">
-        <div className="lg:col-span-6">
-          <p className="eyebrow">{brand.region[lang]}</p>
-          <h1 className="mt-4 max-w-xl text-balance font-display text-5xl sm:text-6xl">
-            {pageCopy.heroTitle[lang]}
-          </h1>
-          <p className="mt-6 max-w-xl text-lg text-muted">
-            {pageCopy.heroLede[lang]}
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a className="btn btn-primary" href={`tel:${locations[0].phoneTel}`}>
-              {locations[0].phoneDisplay}
-            </a>
-          </div>
+      <section className="wrap pt-8 pb-6 lg:pt-10">
+        <p className="eyebrow">{brand.region[lang]}</p>
+        <h1 className="mt-4 max-w-xl text-balance font-display text-5xl sm:text-6xl">
+          {pageCopy.heroTitle[lang]}
+        </h1>
+        <p className="mt-6 max-w-xl text-lg text-muted">
+          {pageCopy.heroLede[lang]}
+        </p>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a className="btn btn-primary" href={`tel:${locations[0].phoneTel}`}>
+            {locations[0].phoneDisplay}
+          </a>
         </div>
-        <figure className="lg:col-span-6">
-          <div className="frame-square">
-            <img src={gallery[0].src} alt={gallery[0].alt[lang]} width={1024} height={1025} />
-          </div>
-          <figcaption className="mt-3 text-sm text-muted">{gallery[0].caption[lang]}</figcaption>
-        </figure>
       </section>
 
       <section className="wrap py-12" aria-labelledby="menu-heading">
