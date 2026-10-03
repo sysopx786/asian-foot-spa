@@ -31,15 +31,6 @@ export const barFills = [
 ];
 
 const reviewCopy: Record<string, { es: string; zh: string }> = {
-  "The first thing I noticed was the place was very warm. I asked if there was no AC. She said she just turned it on which was a lie. I was sweating the whole time . There was no technique to the massage, it was obvious the woman had no training. Will never go here again.": {
-    es: "Lo primero que noté fue que el lugar estaba muy caliente. Pregunté si no había aire acondicionado. Dijo que acababa de encenderlo, y eso era mentira. Sudé todo el tiempo. El masaje no tenía técnica; era evidente que la mujer no tenía formación. No volveré nunca.",
-    zh: "我第一眼就觉得这里很热。我问是不是没有空调。她说刚打开，那是假的。我全程都在出汗。按摩没有手法，看得出那位女士没有受过训练。我不会再来。",
-  },
-  "Nice massage": { es: "Buen masaje", zh: "按摩不错" },
-  "Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches n pains and I left feeling very relaxed after massage and it also included hot stones, hot towel n essential oils. Clean, neat and professional.": {
-    es: "Amy y May son excelentes. Mi esposo descubrió el lugar y ahora a los dos nos encanta. Se ocuparon de todos mis dolores y salí muy relajada. También incluyó piedras calientes, una toalla caliente y aceites esenciales. Limpio, ordenado y profesional.",
-    zh: "Amy 和 May 很好。我先生发现了这里，现在我们俩都很喜欢。她们照顾了我所有的酸痛，做完非常放松。还包括热石、热毛巾和精油。干净、整洁、专业。",
-  },
   "Wonderful! I was so relaxed I didn't want to leave. Next time full massage along with the reflexology!": {
     es: "Maravilloso. Estaba tan relajada que no quería irme. La próxima vez, un masaje completo junto con la reflexología.",
     zh: "很好。我放松得不想离开。下次要做一次全身按摩，再加上足底反射。",
@@ -133,49 +124,6 @@ export function reviewIn(lang: "en" | "es" | "zh", text: string | undefined): st
 }
 
 export const googleReviews: GoogleReview[] = [
-  {
-    name: "Devi Tummala",
-    letter: "D",
-    color: "#5f7d95",
-    meta: "9 reviews · 1 photo",
-    stars: 1,
-    when: "3 months ago",
-    label: "Overpriced",
-    text: "The first thing I noticed was the place was very warm. I asked if there was no AC. She said she just turned it on which was a lie. I was sweating the whole time . There was no technique to the massage, it was obvious the woman had no training. Will never go here again.",
-    likes: 1,
-  },
-  {
-    name: "Paulina",
-    letter: "P",
-    color: "#1a73e8",
-    meta: "5 reviews · 10 photos",
-    stars: 5,
-    when: "8 months ago",
-  },
-  {
-    name: "K Jain",
-    letter: "K",
-    color: "#188038",
-    meta: "Local Guide · 14 reviews · 5 photos",
-    guide: true,
-    stars: 5,
-    when: "8 months ago",
-    label: "Reasonable price",
-    text: "Nice massage",
-    likes: 1,
-  },
-  {
-    name: "Shubhada Menon",
-    letter: "S",
-    color: "#7b1fa2",
-    meta: "Local Guide · 83 reviews · 25 photos",
-    guide: true,
-    stars: 5,
-    when: "10 months ago",
-    label: "Reasonable price",
-    text: "Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches n pains and I left feeling very relaxed after massage and it also included hot stones, hot towel n essential oils. Clean, neat and professional.",
-    likes: 3,
-  },
   {
     name: "Shirley Wolf",
     letter: "S",
