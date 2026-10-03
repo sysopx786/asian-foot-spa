@@ -30,8 +30,10 @@ jobs:
       - name: Prerender pages
         run: |
           set -euo pipefail
-          server=$(find .output .vercel/output -name 'index.mjs' -o -name 'index.js' | head -1)
+          server=$(find .output -type f \( -name 'index.mjs' -o -name 'index.js' \) | head -1 || true)
           echo "server=$server"
+          find .output -maxdepth 3 -type d | head
+          test -n "$server"
           PORT=3000 node "$server" > /tmp/server.log 2>&1 &
           for i in $(seq 1 30); do
             if curl -sf -o /dev/null http://127.0.0.1:3000/asian-foot-spa/ || curl -sf -o /dev/null http://127.0.0.1:3000/; then
