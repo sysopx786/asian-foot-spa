@@ -27,16 +27,36 @@ jobs:
       - run: npm run build
         env:
           GITHUB_PAGES: "1"
-      - name: Collect static output
+      - name: Prerender pages
         run: |
+          set -euo pipefail
+          server=$(find .output .vercel/output -name 'index.mjs' -o -name 'index.js' | head -1)
+          echo "server=$server"
+          PORT=3000 node "$server" > /tmp/server.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3000/asian-foot-spa/ || curl -sf -o /dev/null http://127.0.0.1:3000/; then
+              break
+            fi
+            sleep 1
+          done
+          base=""
+          if curl -sf -o /dev/null http://127.0.0.1:3000/asian-foot-spa/; then base="/asian-foot-spa"; fi
           mkdir -p site
+          if [ -d .output/public ]; then cp -a .output/public/. site/; fi
           if [ -d .vercel/output/static ]; then cp -a .vercel/output/static/. site/; fi
-          if [ -d dist/client ]; then cp -a dist/client/. site/; elif [ -d dist ]; then cp -a dist/. site/; fi
           mkdir -p site/media
           cp -a public/media/. site/media/
           cp -a public/logo-header.jpg public/favicon.svg public/og.jpg public/logo-wordmark.svg site/ 2>/dev/null || true
-          find site -maxdepth 2 -type d -print
-          test -f site/media/studio-walkthrough.mp4
+          routes="/ /es /gallery /reviews /faq /visit /privacy /locations /locations/phoenixville /services /services/reflexology /services/swedish /services/deep-tissue /services/shiatsu /services/thai /services/hot-stone /services/aromatherapy /services/couples /services/cupping /es/gallery /es/reviews /es/faq /es/visit /es/privacy /es/locations /es/locations/phoenixville /es/services"
+          for route in $routes; do
+            dest="site${route}/index.html"
+            mkdir -p "$(dirname "$dest")"
+            code=$(curl -s -o "$dest" -w '%{http_code}' "http://127.0.0.1:3000${base}${route}")
+            echo "$code $route"
+            if [ "$code" != "200" ]; then rm -f "$dest"; fi
+          done
+          test -s site/index.html
+          grep -q studio-walkthrough site/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
