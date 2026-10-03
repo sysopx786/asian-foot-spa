@@ -194,7 +194,8 @@
   .frame-wide img,
   .frame-photo img,
   .frame-tall img,
-  .frame-square img {
+  .frame-square img,
+  .frame-square video {
     width: 100%;
     height: 100%;
     object-fit: cover;

@@ -173,9 +173,25 @@ export function HomePage({ lang }: { lang: Lang }) {
         </div>
         <figure className="lg:col-span-6">
           <div className="frame-square">
-            <img src="/media/storefront.jpg" alt={gallery[0].alt[lang]} width={1024} height={1025} />
+            <video
+              src="/media/studio-walkthrough.mp4"
+              poster="/media/studio-walkthrough-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+              preload="metadata"
+              aria-label={
+                lang === "en"
+                  ? "Walk through Asian Foot Spa: the door, the waiting room, and a treatment room."
+                  : "Recorrido por Asian Foot Spa: la puerta, la sala de espera y una sala de tratamiento."
+              }
+            />
           </div>
-          <figcaption className="mt-3 text-sm text-muted">{gallery[0].caption[lang]}</figcaption>
+          <figcaption className="mt-3 text-sm text-muted">
+            {lang === "en" ? "A walk through the studio." : "Un recorrido por el estudio."}
+          </figcaption>
         </figure>
       </section>
 
@@ -419,6 +435,12 @@ export function LocationsPage({ lang }: { lang: Lang }) {
             : "Una dirección: 245 Schuylkill Road. El horario y el teléfono están impresos en la puerta. El mapa se carga solo si usted lo pide."}
         </p>
       </header>
+      <figure className="wrap pt-8">
+        <div className="frame-square max-w-xl">
+          <img src="/media/storefront.jpg" alt={gallery[0].alt[lang]} width={1024} height={1025} />
+        </div>
+        <figcaption className="mt-3 text-sm text-muted">{gallery[0].caption[lang]}</figcaption>
+      </figure>
       <div className="wrap grid gap-12 py-10 pb-16">
         {locations.map((loc) => (
           <article key={loc.slug} className="grid gap-6 border-t border-line pt-8 lg:grid-cols-12">
