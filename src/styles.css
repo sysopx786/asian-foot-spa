@@ -350,29 +350,26 @@ html[lang="zh-Hans"] {
   }
 
   .header-main {
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: 0.45rem;
-    padding-top: 0.55rem;
-    padding-bottom: 0.4rem;
+    column-gap: 0.6rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.35rem;
   }
 
   .logo-home {
     display: block;
-    flex: 1 1 auto;
     min-width: 0;
-    max-width: 46%;
-    margin-right: auto;
     overflow: hidden;
     line-height: 0;
   }
 
   .logo-wordmark {
     display: block;
-    width: 100%;
-    height: auto;
-    max-height: 1.7rem;
+    width: auto;
+    max-width: 100%;
+    height: 1.35rem;
     object-fit: contain;
     object-position: left center;
   }
@@ -425,28 +422,40 @@ html[lang="zh-Hans"] {
 
   .header-tools {
     display: flex;
-    flex: 0 0 auto;
     align-items: center;
     gap: 0.25rem;
+    background: #070803;
+  }
+
+  .lang-desktop {
+    display: none;
+  }
+
+  .header-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 0.4rem;
   }
 
   .header-status {
-    padding-bottom: 0.45rem;
+    min-width: 0;
   }
 
   .status-pill {
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 0.35rem;
-    min-height: 1.45rem;
-    padding: 0.1rem 0.6rem;
-    border: 1px solid rgba(244, 239, 230, 0.45);
+    gap: 0.28rem;
+    max-width: 100%;
+    min-height: 1.15rem;
+    padding: 0.05rem 0.45rem;
+    border: 1px solid rgba(244, 239, 230, 0.35);
     border-radius: 999px;
     color: #f4efe6;
-    font-size: 0.62rem;
+    font-size: 0.58rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     line-height: 1;
     text-transform: uppercase;
     white-space: nowrap;
@@ -466,8 +475,8 @@ html[lang="zh-Hans"] {
   }
 
   .status-dot {
-    width: 0.4rem;
-    height: 0.4rem;
+    width: 0.32rem;
+    height: 0.32rem;
     flex: 0 0 auto;
     border-radius: 999px;
   }
@@ -497,12 +506,25 @@ html[lang="zh-Hans"] {
   }
 
   @media (min-width: 64rem) {
-    .logo-home {
-      max-width: 16rem;
+    .logo-wordmark {
+      height: 1.7rem;
     }
 
-    .logo-wordmark {
-      max-height: 1.85rem;
+    .lang-desktop {
+      display: inline-flex;
+    }
+
+    .lang-mobile {
+      display: none;
+    }
+
+    .header-sub {
+      display: none;
+    }
+
+    .header-sub:has(.header-status) {
+      display: flex;
+      padding-bottom: 0.45rem;
     }
   }
 

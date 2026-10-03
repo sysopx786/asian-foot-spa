@@ -153,7 +153,7 @@ function Header({ lang, home }: { lang: Lang; home: boolean }) {
           </TextLink>
         </nav>
         <div className="header-tools">
-          <LangSwitch lang={lang} paths={paths} />
+          <LangSwitch lang={lang} paths={paths} className="lang-switch lang-desktop" />
           <button
             className="btn"
             type="button"
@@ -257,7 +257,10 @@ function Header({ lang, home }: { lang: Lang; home: boolean }) {
         </nav>
       )}
       <SearchDialog lang={lang} open={searchOpen} onOpenChange={setSearchOpen} />
-      {home ? <HeaderStatus lang={lang} /> : null}
+      <div className="header-sub wrap">
+        <LangSwitch lang={lang} paths={paths} className="lang-switch lang-mobile" />
+        {home ? <HeaderStatus lang={lang} /> : null}
+      </div>
     </header>
   );
 }
@@ -287,7 +290,7 @@ function HeaderStatus({ lang }: { lang: Lang }) {
   }, [lang, loc.open, loc.close]);
   const isOpen = status?.isOpen ?? false;
   return (
-    <div className="header-status wrap">
+    <div className="header-status">
       <TextLink to={locationPath(lang, loc.slug)} className="status-pill">
         <span className={isOpen ? "status-dot is-open" : "status-dot is-closed"} aria-hidden="true" />
         {status ? (
@@ -305,9 +308,9 @@ function HeaderStatus({ lang }: { lang: Lang }) {
   );
 }
 
-function LangSwitch({ lang, paths }: { lang: Lang; paths: Record<Lang, string> }) {
+function LangSwitch({ lang, paths, className = "lang-switch" }: { lang: Lang; paths: Record<Lang, string>; className?: string }) {
   return (
-    <nav className="lang-switch" aria-label={ui.language[lang]}>
+    <nav className={className} aria-label={ui.language[lang]}>
       {(["en", "es", "zh"] as const).map((code) =>
         code === lang ? (
           <span key={code} aria-current="page">
