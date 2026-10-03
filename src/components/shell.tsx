@@ -41,8 +41,8 @@ function StudioFilm({ lang }: { lang: Lang }) {
       <figure>
         <div className="frame-video">
           <video
-            src="/media/studio-walkthrough.mp4"
-            poster="/media/studio-walkthrough-poster.jpg"
+            src={`${import.meta.env.BASE_URL}media/studio-walkthrough.mp4`}
+            poster={`${import.meta.env.BASE_URL}media/studio-walkthrough-poster.jpg`}
             width={1280}
             height={720}
             autoPlay
