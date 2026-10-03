@@ -91,7 +91,7 @@ export const locations: Array<{
           "Google’s review summary for this listing: 4.4 from 47 reviews. An older Birdeye page showed 4.6 from 177. Open Google for the live count. Ratings are separate from the room photographs.",
           "El resumen de reseñas de Google para este listado: 4.4 de 47 reseñas. Una página anterior de Birdeye mostraba 4.6 de 177. Abra Google para la cifra en vivo. Las calificaciones son aparte de las fotografías de las salas.",
         ),
-        href: "https://www.google.com/search?q=Asian+Foot+Spa+245+Schuylkill+Rd+Phoenixville",
+        href: "https://www.google.com/maps/place/Asian+Foot+Spa/@40.1355242,-75.5411721,17z/data=!4m8!3m7!1s0x89c68f9dcd5af255:0x851b8e9be0f49fa1!8m2!3d40.1355242!4d-75.5411721!9m1!1b1",
       },
       {
         source: "Yelp",

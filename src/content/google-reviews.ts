@@ -1,5 +1,8 @@
 export const googleReviewsUrl =
-  "https://www.google.com/search?q=Asian+Foot+Spa+245+Schuylkill+Rd+Phoenixville";
+  "https://www.google.com/maps/place/Asian+Foot+Spa/@40.1355242,-75.5411721,17z/data=!4m8!3m7!1s0x89c68f9dcd5af255:0x851b8e9be0f49fa1!8m2!3d40.1355242!4d-75.5411721!9m1!1b1";
+
+export const googleWriteReviewUrl =
+  "https://www.google.com/search?q=Asian+Foot+Spa+245+Schuylkill+Rd+Phoenixville#lrd=0x89c68f9dcd5af255:0x851b8e9be0f49fa1,3";
 
 export type GoogleReview = {
   name: string;

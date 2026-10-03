@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { barFills, googleReviews, googleReviewsUrl, type GoogleReview } from "@/content/google-reviews";
+import { barFills, googleReviews, googleReviewsUrl, googleWriteReviewUrl, type GoogleReview } from "@/content/google-reviews";
 
 const STAR =
   "M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
@@ -123,12 +123,13 @@ function ReviewCard({ review }: { review: GoogleReview }) {
   );
 }
 
-export function GoogleReviews() {
+export function GoogleReviews({ heading = "h1" }: { heading?: "h1" | "h2" }) {
+  const Title = heading;
   return (
     <section className="g-reviews" aria-label="Google review summary">
       <div className="g-reviews-inner">
         <div className="g-head">
-          <h1>Google review summary</h1>
+          <Title>Google review summary</Title>
           <a className="g-info" href={googleReviewsUrl} aria-label="About this Google review summary">
             <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9" fill="none" stroke="#5f6368" strokeWidth="1.4" />
@@ -159,6 +160,14 @@ export function GoogleReviews() {
           {googleReviews.map((review) => (
             <ReviewCard key={`${review.name}-${review.when}`} review={review} />
           ))}
+        </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <a className="btn btn-line" href={googleReviewsUrl}>
+            Read more reviews on Google
+          </a>
+          <a className="btn btn-primary" href={googleWriteReviewUrl}>
+            Please leave a Google review.
+          </a>
         </div>
       </div>
     </section>
