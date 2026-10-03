@@ -4,6 +4,9 @@ export const googleReviewsUrl =
 export const googleWriteReviewUrl =
   "https://www.google.com/search?q=Asian+Foot+Spa+245+Schuylkill+Rd+Phoenixville#lrd=0x89c68f9dcd5af255:0x851b8e9be0f49fa1,3";
 
+export const googleRating = 4.4;
+export const googleReviewCount = 47;
+
 export type GoogleReview = {
   name: string;
   letter: string;

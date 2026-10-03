@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { useRouterState } from "@tanstack/react-router";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowUp, Menu, Phone, Search, X } from "lucide-react";
+import { ArrowUp, Menu, Search, X } from "lucide-react";
+import { AddressLink, HoursLine, PhoneLink } from "@/components/contact";
+import { ClockMark, GoogleMark, PhoneDisc } from "@/components/marks";
 import {
   locationPath,
   locations,
@@ -193,21 +195,20 @@ function Header({ lang, home }: { lang: Lang; home: boolean }) {
         <div className="header-panel hidden border-t lg:block">
           <div className="wrap grid gap-8 py-6 md:grid-cols-2">
             {locations.map((loc) => (
-              <TextLink
-                key={loc.slug}
-                to={locationPath(lang, loc.slug)}
-                className="block"
-                onClick={() => setPanel(null)}
-              >
-                <span className="font-display text-3xl">{loc.name[lang]}</span>
-                <span className="mt-2 block text-muted">
+              <div key={loc.slug} className="block">
+                <TextLink to={locationPath(lang, loc.slug)} className="block" onClick={() => setPanel(null)}>
+                  <span className="font-display text-3xl">{loc.name[lang]}</span>
+                </TextLink>
+                <AddressLink className="mt-2">
                   {loc.street}
                   <br />
-                  {loc.hours[lang]}
-                  <br />
+                  {loc.city}, {loc.region} {loc.postal}
+                </AddressLink>
+                <HoursLine className="mt-1 text-sm text-muted">{loc.hours[lang]}</HoursLine>
+                <PhoneLink tel={loc.phoneTel} className="mt-1">
                   {loc.phoneDisplay}
-                </span>
-              </TextLink>
+                </PhoneLink>
+              </div>
             ))}
           </div>
         </div>
@@ -235,14 +236,12 @@ function Header({ lang, home }: { lang: Lang; home: boolean }) {
               {ui.navStudios[lang]}
             </TextLink>
             {locations.map((loc) => (
-              <TextLink
-                key={loc.slug}
-                className="py-2 pl-4"
-                to={locationPath(lang, loc.slug)}
-                onClick={() => setPanel(null)}
-              >
-                {loc.name[lang]} · {loc.phoneDisplay}
-              </TextLink>
+              <span key={loc.slug} className="grid gap-1 py-2 pl-4">
+                <TextLink to={locationPath(lang, loc.slug)} onClick={() => setPanel(null)}>
+                  {loc.name[lang]}
+                </TextLink>
+                <PhoneLink tel={loc.phoneTel}>{loc.phoneDisplay}</PhoneLink>
+              </span>
             ))}
             <TextLink className="btn justify-start" to={pathFor(lang, "reviews")} onClick={() => setPanel(null)}>
               {ui.navReviews[lang]}
@@ -293,6 +292,7 @@ function HeaderStatus({ lang }: { lang: Lang }) {
     <div className="header-status">
       <TextLink to={locationPath(lang, loc.slug)} className="status-pill">
         <span className={isOpen ? "status-dot is-open" : "status-dot is-closed"} aria-hidden="true" />
+        <ClockMark />
         {status ? (
           <>
             <span>{status.label}</span>
@@ -395,17 +395,15 @@ function Footer({ lang }: { lang: Lang }) {
           {locations.map((loc) => (
             <div key={loc.slug}>
               <p className="eyebrow">{loc.name[lang]}</p>
-              <p className="mt-3">
+              <AddressLink className="mt-3">
                 {loc.street}
                 <br />
                 {loc.city}, {loc.region} {loc.postal}
-              </p>
+              </AddressLink>
               <p className="mt-2">
-                <a className="text-link" href={`tel:${loc.phoneTel}`}>
-                  {loc.phoneDisplay}
-                </a>
+                <PhoneLink tel={loc.phoneTel}>{loc.phoneDisplay}</PhoneLink>
               </p>
-              <p className="mt-1 text-sm text-muted">{loc.hours[lang]}</p>
+              <HoursLine className="mt-1 text-sm text-muted">{loc.hours[lang]}</HoursLine>
             </div>
           ))}
         </div>
@@ -434,7 +432,8 @@ function Footer({ lang }: { lang: Lang }) {
         </TextLink>
         <LangSwitch lang={lang} paths={paths} />
         {locations[0].links.map((link) => (
-          <a key={link.href} className="text-link" href={link.href} rel="noreferrer">
+          <a key={link.href} className="text-link inline-flex items-center gap-1" href={link.href} rel="noreferrer">
+            {link.label === "Google" ? <GoogleMark /> : null}
             {link.label}
           </a>
         ))}
@@ -453,7 +452,7 @@ function CallDock({ lang }: { lang: Lang }) {
             href={`tel:${loc.phoneTel}`}
             className="flex min-h-14 items-center justify-center gap-2 border-l border-line text-sm first:border-l-0"
           >
-            <Phone className="size-4" aria-hidden="true" />
+            <PhoneDisc />
             <span>
               <span className="block text-xs tracking-widest uppercase">{loc.name[lang]}</span>
               {ui.call[lang]}

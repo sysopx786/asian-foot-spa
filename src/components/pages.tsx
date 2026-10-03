@@ -3,6 +3,8 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 import { Shell, TextLink } from "@/components/shell";
 import { GoogleReviews } from "@/components/google-reviews";
+import { AddressLink, GoogleReviewsButton, HoursLine, LinkedCopy, MailLink, PhoneLink } from "@/components/contact";
+import { CardMark, CashMark, ClockMark, GoogleMark, MapsPin, PhoneDisc, WheelchairMark } from "@/components/marks";
 import {
   brand,
   crumbs,
@@ -62,6 +64,7 @@ function Status({ open, close, lang }: { open: string; close: string; lang: Lang
         className={isOpen ? "inline-block size-2 rounded-full bg-moss" : "inline-block size-2 rounded-full bg-bronze"}
         aria-hidden="true"
       />
+      <ClockMark />
       {status ? (
         <>
           <span>{status.label}</span>
@@ -82,6 +85,7 @@ function MapBlock({ query, lang, title }: { query: string; lang: Lang; title: st
   return (
     <div>
       <button type="button" className="btn btn-line" onClick={() => setShow((v) => !v)}>
+        <MapsPin />
         {show ? ui.hideMap[lang] : ui.showMap[lang]}
       </button>
       {show && (
@@ -135,9 +139,19 @@ function PaymentNote({ lang }: { lang: Lang }) {
           <caption className="sr-only">{paymentCopy.title[lang]}</caption>
           <thead>
             <tr>
-              <th scope="col">{paymentCopy.columns.cash[lang]}</th>
+              <th scope="col">
+                <span className="marked">
+                  <CashMark />
+                  <span>{paymentCopy.columns.cash[lang]}</span>
+                </span>
+              </th>
               <th scope="col">{paymentCopy.columns.fee[lang]}</th>
-              <th scope="col">{paymentCopy.columns.total[lang]}</th>
+              <th scope="col">
+                <span className="marked">
+                  <CardMark />
+                  <span>{paymentCopy.columns.total[lang]}</span>
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -205,17 +219,21 @@ export function HomePage({ lang }: { lang: Lang }) {
     <Shell lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(graph) }} />
       <section className="wrap pt-8 pb-6 lg:pt-10">
-        <p className="eyebrow">{brand.region[lang]}</p>
+        <p className="eyebrow">
+          <AddressLink>{brand.region[lang]}</AddressLink>
+        </p>
         <h1 className="mt-4 max-w-xl text-balance font-display text-5xl sm:text-6xl">
           {pageCopy.heroTitle[lang]}
         </h1>
         <p className="mt-6 max-w-xl text-lg text-muted">
-          {pageCopy.heroLede[lang]}
+          <LinkedCopy text={pageCopy.heroLede[lang]} />
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a className="btn btn-primary" href={`tel:${locations[0].phoneTel}`}>
+            <PhoneDisc />
             {locations[0].phoneDisplay}
           </a>
+          <GoogleReviewsButton lang={lang} />
         </div>
       </section>
 
@@ -244,7 +262,9 @@ export function HomePage({ lang }: { lang: Lang }) {
                 <div className="frame-square lg:col-span-5">
                   <img src={item.src} alt={item.alt[lang]} width={1024} height={1025} />
                 </div>
-                <p className="text-muted lg:col-span-7">{item.caption[lang]}</p>
+                <p className="text-muted lg:col-span-7">
+                  <LinkedCopy text={item.caption[lang]} />
+                </p>
               </article>
             ))}
           </div>
@@ -298,7 +318,9 @@ export function HomePage({ lang }: { lang: Lang }) {
             <h2 className="mt-2 font-display text-4xl">
               {pageCopy.stonesHeading[lang]}
             </h2>
-            <p className="mt-4 text-muted">{gallery[7].caption[lang]}</p>
+            <p className="mt-4 text-muted">
+              <LinkedCopy text={gallery[7].caption[lang]} />
+            </p>
             <TextLink className="btn btn-line mt-6" to={pathFor(lang, "gallery")}>
               {ui.navGallery[lang]}
             </TextLink>
@@ -421,6 +443,7 @@ export function ServiceDetail({ lang, slug }: { lang: Lang; slug: string }) {
           <div className="mt-4 grid gap-3">
             {locations.map((loc) => (
               <a key={loc.slug} className="btn btn-primary" href={`tel:${loc.phoneTel}`}>
+                <PhoneDisc />
                 {loc.name[lang]} · {loc.phoneDisplay}
               </a>
             ))}
@@ -451,7 +474,7 @@ export function LocationsPage({ lang }: { lang: Lang }) {
           {pageCopy.studio[lang]}
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted">
-          {pageCopy.locationsLede[lang]}
+          <LinkedCopy text={pageCopy.locationsLede[lang]} />
         </p>
       </header>
       <figure className="wrap pt-8">
@@ -470,14 +493,11 @@ export function LocationsPage({ lang }: { lang: Lang }) {
                   {loc.name[lang]}
                 </TextLink>
               </h2>
-              <p className="mt-3">
-                {formatAddress(loc.slug)}
-                <br />
-                <a className="text-link" href={`tel:${loc.phoneTel}`}>
-                  {loc.phoneDisplay}
-                </a>
+              <AddressLink className="mt-3">{formatAddress(loc.slug)}</AddressLink>
+              <p className="mt-2">
+                <PhoneLink tel={loc.phoneTel}>{loc.phoneDisplay}</PhoneLink>
               </p>
-              <p className="mt-2">{loc.hours[lang]}</p>
+              <HoursLine className="mt-2">{loc.hours[lang]}</HoursLine>
             </div>
             <p className="text-muted lg:col-span-7">{loc.detail[lang]}</p>
           </article>
@@ -532,36 +552,37 @@ export function LocationDetail({ lang, slug }: { lang: Lang; slug: string }) {
         <div className="lg:col-span-7">
           <Status open={loc.open} close={loc.close} lang={lang} />
           <h1 className="mt-3 font-display text-5xl">{loc.name[lang]}</h1>
-          <p className="mt-4 text-lg">
+          <AddressLink className="mt-4 text-lg">
             {loc.street}
             <br />
             {loc.city}, {loc.region} {loc.postal}
-          </p>
-          <p className="mt-2">{loc.hours[lang]}</p>
+          </AddressLink>
+          <HoursLine className="mt-2">{loc.hours[lang]}</HoursLine>
           <p className="mt-2 text-sm text-muted">{loc.hoursNote[lang]}</p>
           <Amenities lang={lang} compact />
           <div className="mt-6 flex flex-wrap gap-3">
             <a className="btn btn-primary" href={`tel:${loc.phoneTel}`}>
+              <PhoneDisc />
               {loc.phoneDisplay}
             </a>
             <a className="btn btn-line" href={directions}>
+              <MapsPin />
               {ui.directions[lang]}
             </a>
           </div>
           <div className="mt-6">
             <MapBlock query={query} lang={lang} title={loc.name[lang]} />
           </div>
-          <p className="mt-8 text-muted">{loc.detail[lang]}</p>
+          <p className="mt-8 text-muted">
+            <LinkedCopy text={loc.detail[lang]} />
+          </p>
           <h2 className="mt-8 font-display text-3xl">
             {pageCopy.closer[lang]}
           </h2>
           <p className="mt-3 text-muted">{loc.nearby[lang]}</p>
           {loc.email && (
             <p className="mt-6 text-sm text-muted">
-              {pageCopy.emailListed[lang]}
-              <a className="text-link" href={`mailto:${loc.email}`}>
-                {loc.email}
-              </a>
+              {pageCopy.emailListed[lang]} <MailLink email={loc.email} />
             </p>
           )}
         </div>
@@ -573,7 +594,7 @@ export function LocationDetail({ lang, slug }: { lang: Lang; slug: string }) {
             {loc.ratings.map((rating) => (
               <li key={rating.href} className="border-t border-line py-4">
                 <p className="font-display text-2xl">
-                  {rating.source} · {rating.figure[lang]}
+                  {rating.source === "Google" ? <GoogleMark /> : null} {rating.source} · {rating.figure[lang]}
                 </p>
                 <p className="mt-2 text-sm text-muted">{rating.note[lang]}</p>
                 <a className="text-link mt-2 inline-block text-sm" href={rating.href}>
@@ -641,7 +662,9 @@ export function FaqPage({ lang }: { lang: Lang }) {
                         <ChevronDown className="size-5 shrink-0" aria-hidden="true" />
                       </Accordion.Trigger>
                     </Accordion.Header>
-                    <Accordion.Content className="faq-panel">{faq.a[lang]}</Accordion.Content>
+                    <Accordion.Content className="faq-panel">
+                      <LinkedCopy text={faq.a[lang]} />
+                    </Accordion.Content>
                   </Accordion.Item>
                 ))}
             </Accordion.Root>
@@ -658,7 +681,9 @@ export function GalleryPage({ lang }: { lang: Lang }) {
       <Crumbs lang={lang} items={[{ href: pathFor(lang, "gallery"), label: ui.navGallery[lang] }]} />
       <header className="wrap pt-8">
         <h1 className="font-display text-5xl">{ui.navGallery[lang]}</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">{ui.illustrative[lang]}</p>
+        <p className="mt-4 max-w-2xl text-lg text-muted">
+          <LinkedCopy text={ui.illustrative[lang]} />
+        </p>
       </header>
       <div className="wrap grid gap-8 py-10 pb-16 sm:grid-cols-2">
         {gallery.map((item) => (
@@ -666,7 +691,9 @@ export function GalleryPage({ lang }: { lang: Lang }) {
             <div className={item.frame}>
               <img src={item.src} alt={item.alt[lang]} />
             </div>
-            <figcaption className="mt-3 max-w-3xl text-muted">{item.caption[lang]}</figcaption>
+            <figcaption className="mt-3 max-w-3xl text-muted">
+              <LinkedCopy text={item.caption[lang]} />
+            </figcaption>
           </figure>
         ))}
       </div>
@@ -686,8 +713,12 @@ export function VisitPage({ lang }: { lang: Lang }) {
         {pageCopy.visitSteps.map((step, index) => (
           <li key={step.title.en} className="border-t border-line pt-4">
             <p className="eyebrow">0{index + 1}</p>
-            <h2 className="mt-2 font-display text-3xl">{step.title[lang]}</h2>
-            <p className="mt-3 text-muted">{step.body[lang]}</p>
+            <h2 className="mt-2 font-display text-3xl">
+              <LinkedCopy text={step.title[lang]} />
+            </h2>
+            <p className="mt-3 text-muted">
+              <LinkedCopy text={step.body[lang]} />
+            </p>
           </li>
         ))}
       </ol>
@@ -696,15 +727,11 @@ export function VisitPage({ lang }: { lang: Lang }) {
         {locations.map((loc) => (
           <article key={loc.slug} className="border border-line p-5" id={loc.slug}>
             <h2 className="font-display text-4xl">{loc.name[lang]}</h2>
-            <p className="mt-3">
-              {formatAddress(loc.slug)}
-              <br />
-              <a className="text-link" href={`tel:${loc.phoneTel}`}>
-                {loc.phoneDisplay}
-              </a>
-              <br />
-              {loc.hours[lang]}
+            <AddressLink className="mt-3">{formatAddress(loc.slug)}</AddressLink>
+            <p className="mt-2">
+              <PhoneLink tel={loc.phoneTel}>{loc.phoneDisplay}</PhoneLink>
             </p>
+            <HoursLine className="mt-2">{loc.hours[lang]}</HoursLine>
             <p className="mt-3 text-sm text-muted">{loc.hoursNote[lang]}</p>
             <div className="mt-5">
               <MapBlock query={formatAddress(loc.slug)} lang={lang} title={loc.name[lang]} />
@@ -725,7 +752,9 @@ export function PrivacyPage({ lang }: { lang: Lang }) {
         {pageCopy.privacyBlocks.map((block) => (
           <section key={block.title.en} className="mt-8">
             <h2 className="font-display text-3xl">{block.title[lang]}</h2>
-            <p className="mt-3 text-muted">{block.body[lang]}</p>
+            <p className="mt-3 text-muted">
+              <LinkedCopy text={block.body[lang]} />
+            </p>
           </section>
         ))}
         <p className="mt-10 text-sm text-muted">{pageCopy.privacyChecked[lang]}</p>
@@ -744,7 +773,12 @@ function Amenities({ lang, compact = false }: { lang: Lang; compact?: boolean })
             <ul className="mt-3">
               {group.items.map((item) => (
                 <li key={item.en} className="border-t border-line py-3">
-                  {item[lang]}
+                  <span className="marked">
+                    {item.en.includes("Wheelchair") ? <WheelchairMark /> : null}
+                    {item.en.startsWith("Cash") ? <CashMark /> : null}
+                    {item.en.includes("card") || item.en.includes("NFC") ? <CardMark /> : null}
+                    <span>{item[lang]}</span>
+                  </span>
                 </li>
               ))}
             </ul>
@@ -792,7 +826,9 @@ function FaqList({ lang, heading = false }: { lang: Lang; heading?: boolean }) {
                         <ChevronDown className="size-5 shrink-0" aria-hidden="true" />
                       </Accordion.Trigger>
                     </Accordion.Header>
-                    <Accordion.Content className="faq-panel">{faq.a[lang]}</Accordion.Content>
+                    <Accordion.Content className="faq-panel">
+                      <LinkedCopy text={faq.a[lang]} />
+                    </Accordion.Content>
                   </Accordion.Item>
                 ))}
             </Accordion.Root>

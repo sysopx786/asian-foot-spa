@@ -1,6 +1,15 @@
 import { useId } from "react";
 import type { Lang } from "@/content/site";
-import { barFills, googleReviews, googleReviewsUrl, googleWriteReviewUrl, type GoogleReview } from "@/content/google-reviews";
+import { GoogleMark } from "@/components/marks";
+import {
+  barFills,
+  googleRating,
+  googleReviewCount,
+  googleReviews,
+  googleReviewsUrl,
+  googleWriteReviewUrl,
+  type GoogleReview,
+} from "@/content/google-reviews";
 
 const STAR =
   "M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z";
@@ -49,16 +58,81 @@ function Avatar({ review }: { review: GoogleReview }) {
   );
 }
 
-function ReviewCard({ review }: { review: GoogleReview }) {
+function countPhrase(count: string, one: string, many: string) {
+  return count === "1" ? one : many.replace("{n}", count);
+}
+
+function localizeMeta(meta: string, lang: Lang) {
+  if (lang === "en") return meta;
+  const guide = meta.startsWith("Local Guide");
+  const reviews = meta.match(/(\d[\d,]*) reviews?/);
+  const photos = meta.match(/(\d[\d,]*) photos?/);
+  const parts: string[] = [];
+  if (guide) parts.push(lang === "zh" ? "本地向导" : "Guía local");
+  if (reviews) {
+    parts.push(
+      lang === "zh"
+        ? `${reviews[1]} 条评价`
+        : countPhrase(reviews[1], "1 reseña", "{n} reseñas"),
+    );
+  }
+  if (photos) {
+    parts.push(
+      lang === "zh" ? `${photos[1]} 张照片` : countPhrase(photos[1], "1 foto", "{n} fotos"),
+    );
+  }
+  return parts.join(lang === "zh" ? " · " : " · ") || meta;
+}
+
+function localizeWhen(when: string, lang: Lang) {
+  if (lang === "en") return when;
+  const edited = when.startsWith("Edited ");
+  const rest = edited ? when.slice("Edited ".length) : when;
+  let phrase = rest;
+  if (rest === "a year ago") phrase = lang === "zh" ? "1 年前" : "hace un año";
+  const months = rest.match(/^(\d+) months ago$/);
+  const years = rest.match(/^(\d+) years ago$/);
+  if (months) phrase = lang === "zh" ? `${months[1]} 个月前` : `hace ${months[1]} meses`;
+  if (years) phrase = lang === "zh" ? `${years[1]} 年前` : `hace ${years[1]} años`;
+  if (!edited) return phrase;
+  return lang === "zh" ? `编辑于${phrase}` : `Editada ${phrase}`;
+}
+
+const labels: Record<string, { es: string; zh: string }> = {
+  Overpriced: { es: "Demasiado caro", zh: "偏贵" },
+  "Reasonable price": { es: "Precio razonable", zh: "价格合理" },
+  "Great price": { es: "Muy buen precio", zh: "价格很好" },
+};
+
+const replies: Record<string, { es: string; zh: string }> = {
+  "We are very happy to get your approval! Looking forward to your next visit!": {
+    es: "Nos alegra mucho su aprobación. Esperamos su próxima visita.",
+    zh: "很高兴得到您的认可！期待您下次光临！",
+  },
+  "Thank you for coming. We will try our best to do better, thank you": {
+    es: "Gracias por venir. Haremos lo posible por hacerlo mejor, gracias.",
+    zh: "谢谢您的光临。我们会尽量做得更好，谢谢。",
+  },
+  "Thank you for your approval! Looking forward to seeing you again!": {
+    es: "Gracias por su aprobación. Esperamos verle de nuevo.",
+    zh: "谢谢您的认可！期待再次见到您！",
+  },
+};
+
+function ReviewCard({ review, lang }: { review: GoogleReview; lang: Lang }) {
+  const more = lang === "zh" ? "更多" : lang === "es" ? "Más" : "More";
+  const owner = lang === "zh" ? "Asian Foot Spa（店主）" : lang === "es" ? "Asian Foot Spa (propietario)" : "Asian Foot Spa (Owner)";
+  const translation = lang === "zh" ? "译文" : "Traducción";
+  const replyText = review.reply ? replies[review.reply.text]?.[lang === "zh" ? "zh" : "es"] : undefined;
   return (
     <article className="g-card">
       <div className="g-card-top">
         <Avatar review={review} />
         <div>
           <p className="g-name">{review.name}</p>
-          <p className="g-meta">{review.meta}</p>
+          <p className="g-meta">{localizeMeta(review.meta, lang)}</p>
         </div>
-        <button type="button" className="g-dots" aria-label={`More actions for ${review.name}`}>
+        <button type="button" className="g-dots" aria-label={lang === "zh" ? `${review.name} 的更多操作` : lang === "es" ? `Más acciones para ${review.name}` : `More actions for ${review.name}`}>
           <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="5" r="1.6" fill="currentColor" />
             <circle cx="12" cy="12" r="1.6" fill="currentColor" />
@@ -68,10 +142,12 @@ function ReviewCard({ review }: { review: GoogleReview }) {
       </div>
       <div className="g-starline">
         <StarRow value={review.stars} size={14} empty="#dadce0" />
-        <span className="sr-only">{review.stars} stars</span>
-        <span className="g-when">{review.when}</span>
+        <span className="sr-only">
+          {review.stars} {lang === "zh" ? "星" : lang === "es" ? "estrellas" : "stars"}
+        </span>
+        <span className="g-when">{localizeWhen(review.when, lang)}</span>
       </div>
-      {review.label && <p className="g-label">{review.label}</p>}
+      {review.label && <p className="g-label">{lang === "en" ? review.label : labels[review.label]?.[lang] ?? review.label}</p>}
       {review.text && (
         <p className="g-body">
           {review.text}
@@ -79,7 +155,7 @@ function ReviewCard({ review }: { review: GoogleReview }) {
             <>
               {" ... "}
               <a className="g-more" href={googleReviewsUrl}>
-                More
+                {more}
               </a>
             </>
           )}
@@ -113,11 +189,16 @@ function ReviewCard({ review }: { review: GoogleReview }) {
               A
             </span>
             <div>
-              <p className="g-owner-name">Asian Foot Spa (Owner)</p>
-              {review.reply.when && <p className="g-owner-time">{review.reply.when}</p>}
+              <p className="g-owner-name">{owner}</p>
+              {review.reply.when && <p className="g-owner-time">{localizeWhen(review.reply.when, lang)}</p>}
             </div>
           </div>
           <p>{review.reply.text}</p>
+          {lang !== "en" && replyText && (
+            <p className="g-original">
+              {translation}: {replyText}
+            </p>
+          )}
         </div>
       )}
     </article>
@@ -135,16 +216,31 @@ export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; he
         : "About this Google review summary";
   const rated =
     lang === "zh"
-      ? "47 条 Google 评价，5 分制 4.4 分。"
+      ? `${googleReviewCount} 条 Google 评价，5 分制 ${googleRating} 分。`
       : lang === "es"
-        ? "4.4 de 5, a partir de 47 reseñas de Google."
-        : "Rated 4.4 out of 5 from 47 Google reviews.";
+        ? `${googleRating} de 5, a partir de ${googleReviewCount} reseñas de Google.`
+        : `Rated ${googleRating} out of 5 from ${googleReviewCount} Google reviews.`;
+  const kept =
+    lang === "zh"
+      ? "评价正文保持发布时的语言。"
+      : lang === "es"
+        ? "El texto de cada reseña se muestra en el idioma en que se publicó."
+        : "";
+  const more =
+    lang === "zh" ? "在 Google 上阅读更多评价" : lang === "es" ? "Ver más reseñas en Google" : "Read more reviews on Google";
+  const write =
+    lang === "zh" ? "请在 Google 上留下评价" : lang === "es" ? "Deja una reseña en Google" : "Please leave a Google review.";
   const Title = heading;
   return (
-    <section className="g-reviews" aria-label={title}>
+    <section className="g-reviews" id="google-reviews" aria-label={title}>
       <div className="g-reviews-inner">
         <div className="g-head">
-          <Title>{title}</Title>
+          <Title>
+            <span className="g-title">
+              <GoogleMark />
+              {title}
+            </span>
+          </Title>
           <a className="g-info" href={googleReviewsUrl} aria-label={about}>
             <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9" fill="none" stroke="#5f6368" strokeWidth="1.4" />
@@ -165,23 +261,26 @@ export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; he
             ))}
           </div>
           <div className="g-score-col">
-            <p className="g-score">4.4</p>
-            <StarRow value={4.4} size={18} empty="#e8eaed" />
-            <p className="g-count">(47)</p>
+            <p className="g-score">{googleRating.toFixed(1)}</p>
+            <StarRow value={googleRating} size={18} empty="#e8eaed" />
+            <p className="g-count">({googleReviewCount})</p>
             <p className="sr-only">{rated}</p>
           </div>
         </div>
+        {kept && <p className="g-original">{kept}</p>}
         <div className="g-cards">
           {googleReviews.map((review) => (
-            <ReviewCard key={`${review.name}-${review.when}`} review={review} />
+            <ReviewCard key={`${review.name}-${review.when}`} review={review} lang={lang} />
           ))}
         </div>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a className="btn btn-line" href={googleReviewsUrl}>
-            Read more reviews on Google
+            <GoogleMark />
+            {more}
           </a>
           <a className="btn btn-primary" href={googleWriteReviewUrl}>
-            Please leave a Google review.
+            <GoogleMark />
+            {write}
           </a>
         </div>
       </div>
