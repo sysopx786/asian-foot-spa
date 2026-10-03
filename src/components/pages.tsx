@@ -230,9 +230,7 @@ export function HomePage({ lang }: { lang: Lang }) {
           </div>
         </div>
         <p className="mt-4 max-w-xl text-muted">{ui.confirm[lang]}</p>
-        <TextLink className="btn btn-line mt-6" to={pathFor(lang, "services")}>
-          {ui.menuLabel[lang]}
-        </TextLink>
+        <RateBoard lang={lang} />
       </section>
 
       <section className="bg-paper-2 py-14" aria-labelledby="studios-heading">
