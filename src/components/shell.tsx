@@ -92,10 +92,10 @@ function Header({ lang }: { lang: Lang }) {
         <TextLink to={pathFor(lang, "home")} className="logo-home">
           <img
             className="logo-wordmark"
-            src="/logo-wordmark.svg"
+            src="/logo-header.jpg"
             alt="Asian Foot Spa"
-            width={5275}
-            height={382}
+            width={3190}
+            height={272}
           />
         </TextLink>
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
