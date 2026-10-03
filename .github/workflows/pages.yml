@@ -69,20 +69,7 @@ jobs:
           done
           curl -fsS "http://127.0.0.1:3000${base}/sitemap.xml" -o site/sitemap.xml
           curl -fsS "http://127.0.0.1:3000${base}/robots.txt" -o site/robots.txt
-          python3 - << 'PY'
-from pathlib import Path
-public = "https://sysopx786.github.io/asian-foot-spa"
-sitemap = Path("site/sitemap.xml").read_text()
-import re
-sitemap = re.sub(r"https?://(?:127\.0\.0\.1|localhost)(?::\d+)?(?:/asian-foot-spa)?", public, sitemap)
-Path("site/sitemap.xml").write_text(sitemap)
-robots = Path("site/robots.txt").read_text()
-robots = re.sub(r"Sitemap:.*", f"Sitemap: {public}/sitemap.xml", robots)
-Path("site/robots.txt").write_text(robots)
-if public not in sitemap:
-    raise SystemExit("sitemap was not rewritten to the public site")
-print("sitemap", sitemap.count("<loc>"), "urls")
-PY
+          node -e 'const fs=require("fs"); const pub="https://sysopx786.github.io/asian-foot-spa"; let s=fs.readFileSync("site/sitemap.xml","utf8").replace(/https?:\/\/(?:127\.0\.0\.1|localhost)(?::\d+)?(?:\/asian-foot-spa)?/g, pub); fs.writeFileSync("site/sitemap.xml", s); let r=fs.readFileSync("site/robots.txt","utf8").replace(/Sitemap:.*/g, "Sitemap: "+pub+"/sitemap.xml"); fs.writeFileSync("site/robots.txt", r); if(!s.includes(pub)) process.exit(1); console.log("sitemap", (s.match(/<loc>/g)||[]).length);'
           if [ "$missing" != "0" ]; then echo '--- server log ---'; cat /tmp/server.log; exit 1; fi
           grep -q studio-walkthrough site/index.html
           find site -name '*.html' -print0 | xargs -0 sed -i \
