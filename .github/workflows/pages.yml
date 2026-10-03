@@ -30,11 +30,11 @@ jobs:
       - name: Prerender pages
         run: |
           set -euo pipefail
-          server=$(find .output -type f \( -name 'index.mjs' -o -name 'index.js' \) | head -1 || true)
+          server=.output/server/index.mjs
           echo "server=$server"
-          find .output -maxdepth 3 -type d | head
-          test -n "$server"
+          ls -l "$server"
           PORT=3000 node "$server" > /tmp/server.log 2>&1 &
+          echo $! > /tmp/server.pid
           for i in $(seq 1 30); do
             if curl -sf -o /dev/null http://127.0.0.1:3000/asian-foot-spa/ || curl -sf -o /dev/null http://127.0.0.1:3000/; then
               break
@@ -57,7 +57,7 @@ jobs:
             echo "$code $route"
             if [ "$code" != "200" ]; then rm -f "$dest"; fi
           done
-          test -s site/index.html
+          if [ ! -s site/index.html ]; then echo '--- server log ---'; cat /tmp/server.log; exit 1; fi
           grep -q studio-walkthrough site/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
