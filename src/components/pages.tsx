@@ -222,12 +222,9 @@ export function HomePage({ lang }: { lang: Lang }) {
         <p className="eyebrow">
           <AddressLink>{brand.region[lang]}</AddressLink>
         </p>
-        <h1 className="mt-4 max-w-xl text-balance font-display text-5xl sm:text-6xl">
+        <h1 className="mt-4 max-w-3xl text-balance font-display text-5xl sm:text-6xl">
           {pageCopy.heroTitle[lang]}
         </h1>
-        <p className="mt-6 max-w-xl text-lg text-muted">
-          <LinkedCopy text={pageCopy.heroLede[lang]} />
-        </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a className="btn btn-primary" href={`tel:${locations[0].phoneTel}`}>
             <PhoneDisc />

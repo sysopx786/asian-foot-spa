@@ -877,14 +877,9 @@ export const amenities: Array<{ title: Localized; items: Localized[] }> = [
 
 export const pageCopy = {
   heroTitle: t(
-    "Quiet rooms. A posted menu. Pressure you can ask for.",
-    "Salas tranquilas. Un menú publicado. La presión que usted pide.",
-    "安静的房间。柜台上的菜单。压力可以提出来。",
-  ),
-  heroLede: t(
-    "Foot reflexology and body work at 245 Schuylkill Road. The door says open seven days, 10 a.m. to 9 p.m.",
-    "Reflexología de pies y trabajo corporal en 245 Schuylkill Road. La puerta dice abierto los siete días, de 10 a. m. a 9 p. m.",
-    "足底反射和身体手法，地址 245 Schuylkill Road。门上写着每周七天营业，上午 10:00 至晚上 9:00。",
+    "Your sanctuary for healing, relaxation, and relief.",
+    "Su santuario para la sanación, la relajación y el alivio.",
+    "您的疗愈、放松与舒缓之所。",
   ),
   rooms: t("The rooms", "Las salas", "房间"),
   needIntro: t(
