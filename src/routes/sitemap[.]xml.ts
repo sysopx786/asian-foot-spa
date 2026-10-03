@@ -7,7 +7,9 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        const origin = new URL(request.url).origin;
+        const url = new URL(request.url);
+        const onPages = url.pathname.startsWith("/asian-foot-spa");
+        const origin = onPages ? "https://sysopx786.github.io/asian-foot-spa" : url.origin;
         const paths = [
           ...pages,
           ...services.map((service) => `/services/${service.slug}`),

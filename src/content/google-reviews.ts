@@ -30,6 +30,108 @@ export const barFills = [
   { stars: 1, width: "18%" },
 ];
 
+const reviewCopy: Record<string, { es: string; zh: string }> = {
+  "The first thing I noticed was the place was very warm. I asked if there was no AC. She said she just turned it on which was a lie. I was sweating the whole time . There was no technique to the massage, it was obvious the woman had no training. Will never go here again.": {
+    es: "Lo primero que noté fue que el lugar estaba muy caliente. Pregunté si no había aire acondicionado. Dijo que acababa de encenderlo, y eso era mentira. Sudé todo el tiempo. El masaje no tenía técnica; era evidente que la mujer no tenía formación. No volveré nunca.",
+    zh: "我第一眼就觉得这里很热。我问是不是没有空调。她说刚打开，那是假的。我全程都在出汗。按摩没有手法，看得出那位女士没有受过训练。我不会再来。",
+  },
+  "Nice massage": { es: "Buen masaje", zh: "按摩不错" },
+  "Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches n pains and I left feeling very relaxed after massage and it also included hot stones, hot towel n essential oils. Clean, neat and professional.": {
+    es: "Amy y May son excelentes. Mi esposo descubrió el lugar y ahora a los dos nos encanta. Se ocuparon de todos mis dolores y salí muy relajada. También incluyó piedras calientes, una toalla caliente y aceites esenciales. Limpio, ordenado y profesional.",
+    zh: "Amy 和 May 很好。我先生发现了这里，现在我们俩都很喜欢。她们照顾了我所有的酸痛，做完非常放松。还包括热石、热毛巾和精油。干净、整洁、专业。",
+  },
+  "Wonderful! I was so relaxed I didn't want to leave. Next time full massage along with the reflexology!": {
+    es: "Maravilloso. Estaba tan relajada que no quería irme. La próxima vez, un masaje completo junto con la reflexología.",
+    zh: "很好。我放松得不想离开。下次要做一次全身按摩，再加上足底反射。",
+  },
+  "The BEST massage I have ever had! May is AWESOME": {
+    es: "El MEJOR masaje que he recibido. May es excelente.",
+    zh: "这是我做过的最好的按摩！May 非常好。",
+  },
+  "I am very particular that I need": {
+    es: "Soy muy exigente con lo que necesito",
+    zh: "我对自己需要的很挑剔",
+  },
+  "I will never visit this place again.": {
+    es: "No volveré a este lugar.",
+    zh: "我不会再来这里。",
+  },
+  "Outstanding deep tissue and pressure point experience. Don't let the demure stature of these women fool you. Clean, comforting atmosphere. Made sure pressure was what I wanted. Very grateful I listened to my friends experience there and went. Husband and I are hooked.": {
+    es: "Una experiencia excelente de tejido profundo y puntos de presión. No se deje engañar por la figura menuda de estas mujeres. Ambiente limpio y acogedor. Se aseguraron de que la presión fuera la que yo quería. Me alegra haber hecho caso de la experiencia de mis amigos. Mi esposo y yo ya no podemos dejarlo.",
+    zh: "深层组织和穴位按压都很出色。不要被她们娇小的身材骗了。环境干净、让人安心。压力按我要的来。很庆幸听了朋友的经验才来。我和丈夫都离不开这里了。",
+  },
+  "Excellent massage for being super affordable and convenient.": {
+    es: "Un masaje excelente, y además muy asequible y práctico.",
+    zh: "按摩很好，而且非常实惠、方便。",
+  },
+  "I need to talk . BEST massage therapist ever . OMG. If you are in doubt whether it is worth it or not. It's VERY worth it": {
+    es: "Tengo que decirlo. La mejor masajista que he tenido. Si duda si vale la pena, vale MUCHO la pena.",
+    zh: "我得说出来。最好的按摩师。如果您还在犹豫值不值，非常值。",
+  },
+  "Very nice massage and very professional": {
+    es: "Un masaje muy agradable y muy profesional.",
+    zh: "按摩很好，也很专业。",
+  },
+  "Incredibly clean and relaxing environment, and amazing massage therapists. Will definitely be coming back!": {
+    es: "Un ambiente increíblemente limpio y relajante, y unas masajistas excelentes. Volveré sin duda.",
+    zh: "环境非常干净、让人放松，按摩师也很出色。我一定会再来。",
+  },
+  "Great massage, peaceful spa music, clean, and friendly. Highly recommend": {
+    es: "Muy buen masaje, música tranquila, limpio y un trato amable. Lo recomiendo.",
+    zh: "按摩很好，店里音乐安静，干净，人也亲切。强烈推荐。",
+  },
+  "Massage was good. Cici was fairly strong. I will be back.": {
+    es: "El masaje estuvo bien. Cici tenía bastante fuerza. Volveré.",
+    zh: "按摩不错。Cici 手劲挺大。我会再来。",
+  },
+  "I literally just left it was amazing Amy was great. Definitely coming back": {
+    es: "Acabo de salir. Fue increíble. Amy estuvo excelente. Volveré sin duda.",
+    zh: "我刚离开。太好了。Amy 很棒。我一定会再来。",
+  },
+  "This Spa is not just feet! Received the most amazing full body professional massage here recently. Free hot stones at the end was a nice touch on a cold day. Left floating on a cloud of relaxation.": {
+    es: "Este spa no es solo de pies. Hace poco recibí aquí un masaje de cuerpo completo profesional, de lo mejor. Las piedras calientes gratis al final fueron un buen detalle en un día frío. Salí flotando de lo relajada.",
+    zh: "这家不只是做脚！最近在这里做了一次非常好的专业全身按摩。结束时的免费热石，在冷天里很舒服。离开时整个人都放松了。",
+  },
+  "The prices are": { es: "Los precios son", zh: "价格是" },
+  "aches and pains.": { es: "dolores y molestias.", zh: "酸痛。" },
+  "Just left this place and had to leave a review. The reflexology is amazing, the massage is good too. I mostly enjoyed the scalp massage. They use hot stones, hot towel and oil. All essentials, I would say. I will be back next week!": {
+    es: "Acabo de salir y tenía que dejar una reseña. La reflexología es excelente y el masaje también está bien. Lo que más disfruté fue el masaje del cuero cabelludo. Usan piedras calientes, toalla caliente y aceite. Yo diría que son lo esencial. Volveré la semana que viene.",
+    zh: "刚离开就想写评价。足底反射非常好，按摩也不错。我最喜欢头皮按摩。他们用热石、热毛巾和油。我觉得这些都该有。我下周还会来。",
+  },
+  "Not good at all .i used to go there , it was ok but last time i was there my massage was half way.it was deep tissue massage with hot stone but disappointing.will not go there any more .": {
+    es: "Nada bien. Antes iba, y estaba aceptable, pero la última vez el masaje se quedó a la mitad. Era tejido profundo con piedras calientes, y decepcionó. No volveré.",
+    zh: "一点都不好。我以前常去，那时还行，但上次按摩做到一半就停了。那是带热石的深层按摩，让人失望。我不会再去了。",
+  },
+  "Best massage I've ever had Professional and good price": {
+    es: "El mejor masaje que he recibido. Profesional y a buen precio.",
+    zh: "我做过的最好的按摩。专业，价格也好。",
+  },
+  "I was very happy with my visit. The reception area is very clean, cute and relaxing, and staff is friendly. I received an amazing massage from Amy!": {
+    es: "Quedé muy contenta con la visita. La recepción está muy limpia, es agradable y relajante, y el personal es amable. Recibí un masaje excelente de Amy.",
+    zh: "这次来我很满意。接待处很干净、舒服、让人放松，员工也亲切。Amy 给我做了一次很好的按摩。",
+  },
+  "would prefer to": { es: "preferiría", zh: "更希望" },
+  "Me and my fiance went for a couples massage and it was so nice and relaxing! Felt Amazing!": {
+    es: "Mi prometido y yo fuimos a un masaje en pareja y fue muy agradable y relajante. Nos sentimos de maravilla.",
+    zh: "我和未婚夫去做了情侣按摩，很舒服、很放松。感觉非常好。",
+  },
+  "This is was my first time going to get a massage, thoroughly enjoyed it.": {
+    es: "Era mi primera vez en un masaje y lo disfruté por completo.",
+    zh: "这是我第一次来做按摩，非常喜欢。",
+  },
+  "rejuvenating experience": { es: "una experiencia que reanima", zh: "让人恢复精神的体验" },
+  "in a while.": { es: "en mucho tiempo.", zh: "很久以来。" },
+  "One of the best massages I've ever had!!!": {
+    es: "Uno de los mejores masajes que he recibido.",
+    zh: "我做过的最好的按摩之一。",
+  },
+};
+
+export function reviewIn(lang: "en" | "es" | "zh", text: string | undefined): string | undefined {
+  if (!text || lang === "en") return text;
+  return reviewCopy[text]?.[lang] ?? text;
+}
+
 export const googleReviews: GoogleReview[] = [
   {
     name: "Devi Tummala",

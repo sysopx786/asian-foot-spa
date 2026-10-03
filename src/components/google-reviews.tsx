@@ -8,6 +8,7 @@ import {
   googleReviews,
   googleReviewsUrl,
   googleWriteReviewUrl,
+  reviewIn,
   type GoogleReview,
 } from "@/content/google-reviews";
 
@@ -120,9 +121,8 @@ const replies: Record<string, { es: string; zh: string }> = {
 };
 
 function ReviewCard({ review, lang }: { review: GoogleReview; lang: Lang }) {
-  const more = lang === "zh" ? "更多" : lang === "es" ? "Más" : "More";
+  const moreBtn = lang === "zh" ? "更多" : lang === "es" ? "Más" : "More";
   const owner = lang === "zh" ? "Asian Foot Spa（店主）" : lang === "es" ? "Asian Foot Spa (propietario)" : "Asian Foot Spa (Owner)";
-  const translation = lang === "zh" ? "译文" : "Traducción";
   const replyText = review.reply ? replies[review.reply.text]?.[lang === "zh" ? "zh" : "es"] : undefined;
   return (
     <article className="g-card">
@@ -150,12 +150,12 @@ function ReviewCard({ review, lang }: { review: GoogleReview; lang: Lang }) {
       {review.label && <p className="g-label">{lang === "en" ? review.label : labels[review.label]?.[lang] ?? review.label}</p>}
       {review.text && (
         <p className="g-body">
-          {review.text}
+          {reviewIn(lang, review.text)}
           {review.more && (
             <>
               {" ... "}
               <a className="g-more" href={googleReviewsUrl}>
-                {more}
+                {moreBtn}
               </a>
             </>
           )}
@@ -193,12 +193,7 @@ function ReviewCard({ review, lang }: { review: GoogleReview; lang: Lang }) {
               {review.reply.when && <p className="g-owner-time">{localizeWhen(review.reply.when, lang)}</p>}
             </div>
           </div>
-          <p>{review.reply.text}</p>
-          {lang !== "en" && replyText && (
-            <p className="g-original">
-              {translation}: {replyText}
-            </p>
-          )}
+          <p>{lang === "en" ? review.reply.text : replyText ?? review.reply.text}</p>
         </div>
       )}
     </article>
@@ -220,13 +215,7 @@ export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; he
       : lang === "es"
         ? `${googleRating} de 5, a partir de ${googleReviewCount} reseñas de Google.`
         : `Rated ${googleRating} out of 5 from ${googleReviewCount} Google reviews.`;
-  const kept =
-    lang === "zh"
-      ? "评价正文保持发布时的语言。"
-      : lang === "es"
-        ? "El texto de cada reseña se muestra en el idioma en que se publicó."
-        : "";
-  const more =
+  const readMore =
     lang === "zh" ? "在 Google 上阅读更多评价" : lang === "es" ? "Ver más reseñas en Google" : "Read more reviews on Google";
   const write =
     lang === "zh" ? "请在 Google 上留下评价" : lang === "es" ? "Deja una reseña en Google" : "Please leave a Google review.";
@@ -267,7 +256,6 @@ export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; he
             <p className="sr-only">{rated}</p>
           </div>
         </div>
-        {kept && <p className="g-original">{kept}</p>}
         <div className="g-cards">
           {googleReviews.map((review) => (
             <ReviewCard key={`${review.name}-${review.when}`} review={review} lang={lang} />
@@ -276,7 +264,7 @@ export function GoogleReviews({ lang = "en", heading = "h1" }: { lang?: Lang; he
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <a className="btn btn-line" href={googleReviewsUrl}>
             <GoogleMark />
-            {more}
+            {readMore}
           </a>
           <a className="btn btn-primary" href={googleWriteReviewUrl}>
             <GoogleMark />

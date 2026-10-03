@@ -33,6 +33,15 @@ export function asset(path: string): string {
   return `${base}${path.replace(/^\//, "")}`;
 }
 
+/** Prefix a site path with the GitHub Pages base. Router links already do this; head links do not. */
+export function withBase(path: string): string {
+  const prefix = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  if (!prefix || prefix === "/") return clean;
+  if (clean === prefix || clean.startsWith(`${prefix}/`)) return clean;
+  return `${prefix}${clean}`;
+}
+
 export const brand = {
   name: "Asian Foot Spa",
   region: t("245 Schuylkill Road, Phoenixville", "245 Schuylkill Road, Phoenixville", "245 Schuylkill Road, Phoenixville"),
@@ -328,21 +337,21 @@ export const reviews: Array<{
   href: string;
 }> = [
   {
-    quote: t("Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches and pains and I left feeling very relaxed. It also included hot stones, a hot towel, and essential oils. Clean, neat, and professional.", "Amy y May son excelentes. Mi esposo descubrió el lugar y ahora a los dos nos encanta. Se ocuparon de todos mis dolores y salí muy relajada. También incluyó piedras calientes, una toalla caliente y aceites esenciales. Limpio, ordenado y profesional.", "Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches and pains and I left feeling very relaxed. It also included hot stones, a hot towel, and essential oils. Clean, neat, and professional."),
+    quote: t("Amy and May are great. My hubby discovered this place and now we both love it. They took care of all my aches and pains and I left feeling very relaxed. It also included hot stones, a hot towel, and essential oils. Clean, neat, and professional.", "Amy y May son excelentes. Mi esposo descubrió el lugar y ahora a los dos nos encanta. Se ocuparon de todos mis dolores y salí muy relajada. También incluyó piedras calientes, una toalla caliente y aceites esenciales. Limpio, ordenado y profesional.", "Amy 和 May 很好。我先生发现了这里，现在我们俩都很喜欢。她们照顾了我所有的酸痛，离开时非常放松。还包括热石、热毛巾和精油。干净、整洁、专业。"),
     name: "Shubhada Menon",
     source: "Google",
     where: t("Phoenixville", "Phoenixville", "Phoenixville"),
     href: "https://reviews.birdeye.com/asian-foot-spa-169826051591637",
   },
   {
-    quote: t("Wonderful. I was so relaxed I didn’t want to leave. Next time, a full massage along with the reflexology.", "Maravilloso. Estaba tan relajada que no quería irme. La próxima vez, un masaje completo junto con la reflexología.", "Wonderful. I was so relaxed I didn’t want to leave. Next time, a full massage along with the reflexology."),
+    quote: t("Wonderful. I was so relaxed I didn’t want to leave. Next time, a full massage along with the reflexology.", "Maravilloso. Estaba tan relajada que no quería irme. La próxima vez, un masaje completo junto con la reflexología.", "很好。我放松得不想离开。下次要做一次全身按摩，再加上足底反射。"),
     name: "Shirley Wolf",
     source: "Google",
     where: t("Phoenixville", "Phoenixville", "Phoenixville"),
     href: "https://reviews.birdeye.com/asian-foot-spa-169826051591637",
   },
   {
-    quote: t("Friendly staff, great masseuses, and great pricing. I’d definitely recommend, and they typically can get you in the same day.", "Personal amable, muy buenas masajistas y buenos precios. Lo recomiendo, y por lo general pueden atenderle el mismo día.", "Friendly staff, great masseuses, and great pricing. I’d definitely recommend, and they typically can get you in the same day."),
+    quote: t("Friendly staff, great masseuses, and great pricing. I’d definitely recommend, and they typically can get you in the same day.", "Personal amable, muy buenas masajistas y buenos precios. Lo recomiendo, y por lo general pueden atenderle el mismo día.", "员工亲切，按摩师很好，价格也合适。我一定会推荐，而且通常当天就能安排上。"),
     name: "Blake S.",
     source: "MapQuest",
     where: t("Phoenixville", "Phoenixville", "Phoenixville"),
@@ -781,7 +790,11 @@ const seoTable: Record<PageId, Record<Lang, { title: string; description: string
 
 export function pageSeo(lang: Lang, page: PageId): Seo {
   const copy = seoTable[page][lang];
-  const alternates = { en: pathFor("en", page), es: pathFor("es", page), zh: pathFor("zh", page) };
+  const alternates = {
+    en: withBase(pathFor("en", page)),
+    es: withBase(pathFor("es", page)),
+    zh: withBase(pathFor("zh", page)),
+  };
   return {
     title: copy.title,
     description: copy.description,
@@ -797,11 +810,11 @@ export function serviceSeo(lang: Lang, slug: string): Seo | undefined {
   return {
     title: `${service.name[lang]} · Asian Foot Spa`,
     description: service.summary[lang],
-    path: servicePath(lang, service.slug),
+    path: withBase(servicePath(lang, service.slug)),
     alternates: {
-      en: servicePath("en", service.slug),
-      es: servicePath("es", service.slug),
-      zh: servicePath("zh", service.slug),
+      en: withBase(servicePath("en", service.slug)),
+      es: withBase(servicePath("es", service.slug)),
+      zh: withBase(servicePath("zh", service.slug)),
     },
     lang,
   };
@@ -818,11 +831,11 @@ export function locationSeo(lang: Lang, slug: string): Seo | undefined {
           ? `${loc.name.en} studio · Asian Foot Spa`
           : `Estudio de ${loc.name.es} · Asian Foot Spa`,
     description: `${formatAddress(loc.slug)}. ${loc.phoneDisplay}. ${loc.hours[lang]}`,
-    path: locationPath(lang, loc.slug),
+    path: withBase(locationPath(lang, loc.slug)),
     alternates: {
-      en: locationPath("en", loc.slug),
-      es: locationPath("es", loc.slug),
-      zh: locationPath("zh", loc.slug),
+      en: withBase(locationPath("en", loc.slug)),
+      es: withBase(locationPath("es", loc.slug)),
+      zh: withBase(locationPath("zh", loc.slug)),
     },
     lang,
   };

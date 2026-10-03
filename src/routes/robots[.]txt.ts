@@ -3,7 +3,12 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
+        const url = new URL(request.url);
+        const onPages = url.pathname.startsWith("/asian-foot-spa");
+        const sitemap = onPages
+          ? "https://sysopx786.github.io/asian-foot-spa/sitemap.xml"
+          : new URL("/sitemap.xml", url.origin).href;
         const body = [
           "User-agent: *",
           "Allow: /",
@@ -20,7 +25,7 @@ export const Route = createFileRoute("/robots.txt")({
           "User-agent: ClaudeBot",
           "Allow: /",
           "",
-          "Sitemap: /sitemap.xml",
+          `Sitemap: ${sitemap}`,
           "",
         ].join("\n");
         return new Response(body, {

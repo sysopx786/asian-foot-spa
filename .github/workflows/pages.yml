@@ -49,15 +49,41 @@ jobs:
           mkdir -p site/media
           cp -a public/media/. site/media/
           cp -a public/logo-header.jpg public/favicon.svg public/og.jpg public/logo-wordmark.svg site/ 2>/dev/null || true
-          routes="/ /es /zh /gallery /reviews /faq /visit /privacy /locations /locations/phoenixville /services /services/reflexology /services/swedish /services/deep-tissue /services/shiatsu /services/thai /services/hot-stone /services/aromatherapy /services/couples /services/cupping /es/gallery /es/reviews /es/faq /es/visit /es/privacy /es/locations /es/locations/phoenixville /es/services /zh/gallery /zh/reviews /zh/faq /zh/visit /zh/privacy /zh/locations /zh/locations/phoenixville /zh/services"
+          services="reflexology swedish deep-tissue shiatsu thai hot-stone aromatherapy couples cupping"
+          routes="/ /gallery /reviews /faq /visit /privacy /locations /locations/phoenixville /services"
+          for s in $services; do routes="$routes /services/$s"; done
+          for lang in es zh; do
+            routes="$routes /$lang /$lang/gallery /$lang/reviews /$lang/faq /$lang/visit /$lang/privacy /$lang/locations /$lang/locations/phoenixville /$lang/services"
+            for s in $services; do routes="$routes /$lang/services/$s"; done
+          done
+          missing=0
           for route in $routes; do
             dest="site${route}/index.html"
             mkdir -p "$(dirname "$dest")"
             code=$(curl -s -o "$dest" -w '%{http_code}' "http://127.0.0.1:3000${base}${route}")
             echo "$code $route"
-            if [ "$code" != "200" ]; then rm -f "$dest"; fi
+            if [ "$code" != "200" ] || [ ! -s "$dest" ]; then
+              echo "missing $route"
+              missing=1
+            fi
           done
-          if [ ! -s site/index.html ]; then echo '--- server log ---'; cat /tmp/server.log; exit 1; fi
+          curl -fsS "http://127.0.0.1:3000${base}/sitemap.xml" -o site/sitemap.xml
+          curl -fsS "http://127.0.0.1:3000${base}/robots.txt" -o site/robots.txt
+          python3 - << 'PY'
+from pathlib import Path
+public = "https://sysopx786.github.io/asian-foot-spa"
+sitemap = Path("site/sitemap.xml").read_text()
+import re
+sitemap = re.sub(r"https?://(?:127\.0\.0\.1|localhost)(?::\d+)?(?:/asian-foot-spa)?", public, sitemap)
+Path("site/sitemap.xml").write_text(sitemap)
+robots = Path("site/robots.txt").read_text()
+robots = re.sub(r"Sitemap:.*", f"Sitemap: {public}/sitemap.xml", robots)
+Path("site/robots.txt").write_text(robots)
+if public not in sitemap:
+    raise SystemExit("sitemap was not rewritten to the public site")
+print("sitemap", sitemap.count("<loc>"), "urls")
+PY
+          if [ "$missing" != "0" ]; then echo '--- server log ---'; cat /tmp/server.log; exit 1; fi
           grep -q studio-walkthrough site/index.html
           find site -name '*.html' -print0 | xargs -0 sed -i \
             -e 's#src="/logo-header.jpg"#src="/asian-foot-spa/logo-header.jpg"#g' \
