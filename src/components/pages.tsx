@@ -152,32 +152,6 @@ export function HomePage({ lang }: { lang: Lang }) {
   return (
     <Shell lang={lang}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(graph) }} />
-      <section className="wrap pt-6">
-        <figure>
-          <div className="frame-video">
-            <video
-              src="/media/studio-walkthrough.mp4"
-              poster="/media/studio-walkthrough-poster.jpg"
-              width={1280}
-              height={720}
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls
-              preload="auto"
-              aria-label={
-                lang === "en"
-                  ? "Walk through Asian Foot Spa: the door, the waiting room, and a treatment room."
-                  : "Recorrido por Asian Foot Spa: la puerta, la sala de espera y una sala de tratamiento."
-              }
-            />
-          </div>
-          <figcaption className="mt-3 text-sm text-muted">
-            {lang === "en" ? "A walk through the studio." : "Un recorrido por el estudio."}
-          </figcaption>
-        </figure>
-      </section>
       <section className="wrap grid items-end gap-10 pt-8 pb-6 lg:grid-cols-12 lg:pt-10">
         <div className="lg:col-span-12">
           <p className="eyebrow">{brand.region[lang]}</p>

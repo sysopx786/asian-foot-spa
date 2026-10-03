@@ -35,13 +35,47 @@ export function TextLink({
   );
 }
 
+function StudioFilm({ lang }: { lang: Lang }) {
+  return (
+    <section className="wrap pt-6" aria-label={lang === "en" ? "Studio walkthrough" : "Recorrido del estudio"}>
+      <figure>
+        <div className="frame-video">
+          <video
+            src="/media/studio-walkthrough.mp4"
+            poster="/media/studio-walkthrough-poster.jpg"
+            width={1280}
+            height={720}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            preload="auto"
+            aria-label={
+              lang === "en"
+                ? "Walk through Asian Foot Spa: the door, the waiting room, and a treatment room."
+                : "Recorrido por Asian Foot Spa: la puerta, la sala de espera y una sala de tratamiento."
+            }
+          />
+        </div>
+        <figcaption className="mt-3 text-sm text-muted">
+          {lang === "en" ? "A walk through the studio." : "Un recorrido por el estudio."}
+        </figcaption>
+      </figure>
+    </section>
+  );
+}
+
 export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
+  const path = useRouterState({ select: (state) => state.location.pathname });
+  const home = path === "/" || path === "/es" || path === "/es/";
   return (
     <>
       <a className="skip" href="#content">
         {ui.skip[lang]}
       </a>
       <Header lang={lang} />
+      {home ? <StudioFilm lang={lang} /> : null}
       <main id="content">{children}</main>
       <Footer lang={lang} />
       <CallDock lang={lang} />
