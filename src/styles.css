@@ -353,24 +353,28 @@ html[lang="zh-Hans"] {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    column-gap: 0.5rem;
-    padding-top: 0.85rem;
-    padding-bottom: 0.7rem;
+    column-gap: 0.45rem;
+    padding-top: 0.55rem;
+    padding-bottom: 0.4rem;
   }
 
   .logo-home {
     display: block;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     min-width: 0;
+    max-width: 46%;
     margin-right: auto;
+    overflow: hidden;
     line-height: 0;
   }
 
   .logo-wordmark {
     display: block;
-    width: auto;
-    height: 1.4rem;
-    max-width: 10.5rem;
+    width: 100%;
+    height: auto;
+    max-height: 1.7rem;
+    object-fit: contain;
+    object-position: left center;
   }
 
   .header-main .btn {
@@ -401,15 +405,17 @@ html[lang="zh-Hans"] {
   .site-header .lang-switch {
     border-width: 1.5px;
     border-radius: 999px;
+    overflow: hidden;
+    background: transparent;
   }
 
   .site-header .lang-switch a,
   .site-header .lang-switch span {
-    min-height: 2.75rem;
-    padding: 0.35rem 0.8rem;
-    font-size: 0.92rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    min-height: 2.15rem;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
   }
 
   .lang-switch span[aria-current="page"] {
@@ -425,23 +431,25 @@ html[lang="zh-Hans"] {
   }
 
   .header-status {
-    padding-bottom: 0.85rem;
+    padding-bottom: 0.45rem;
   }
 
   .status-pill {
     display: inline-flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    gap: 0.45rem 0.6rem;
-    min-height: 2.5rem;
-    padding: 0.35rem 0.9rem;
+    gap: 0.35rem;
+    min-height: 1.45rem;
+    padding: 0.1rem 0.6rem;
     border: 1px solid rgba(244, 239, 230, 0.45);
     border-radius: 999px;
     color: #f4efe6;
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.04em;
+    line-height: 1;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .status-pill:hover {
@@ -458,8 +466,8 @@ html[lang="zh-Hans"] {
   }
 
   .status-dot {
-    width: 0.62rem;
-    height: 0.62rem;
+    width: 0.4rem;
+    height: 0.4rem;
     flex: 0 0 auto;
     border-radius: 999px;
   }
@@ -489,9 +497,12 @@ html[lang="zh-Hans"] {
   }
 
   @media (min-width: 64rem) {
+    .logo-home {
+      max-width: 16rem;
+    }
+
     .logo-wordmark {
-      height: 1.7rem;
-      max-width: 18rem;
+      max-height: 1.85rem;
     }
   }
 
