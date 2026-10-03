@@ -529,6 +529,8 @@ export const ui = {
   mapTitle: t("Map", "Mapa", "地图"),
   openNow: t("Open now", "Abierto ahora", "营业中"),
   closedNow: t("Closed now", "Cerrado ahora", "已打烊"),
+  closesAt: t("Closes at", "Cierra a las", "打烊于"),
+  opensAt: t("Opens at", "Abre a las", "开门于"),
   hoursListed: t("Hours on the door", "Horario en la puerta", "门上的时间"),
   readServices: t("All services", "Todos los servicios", "全部服务"),
   bothStudios: t("The studio", "El estudio", "工作室"),

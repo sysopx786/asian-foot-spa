@@ -51,20 +51,27 @@ function Crumbs({ lang, items }: { lang: Lang; items: Array<{ href: string; labe
 }
 
 function Status({ open, close, lang }: { open: string; close: string; lang: Lang }) {
-  const [label, setLabel] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState<ReturnType<typeof studioStatus> | null>(null);
   useEffect(() => {
-    const status = studioStatus(open, close, lang);
-    setLabel(status.label);
-    setIsOpen(status.isOpen);
+    setStatus(studioStatus(open, close, lang));
   }, [open, close, lang]);
+  const isOpen = status?.isOpen ?? false;
   return (
-    <span className="inline-flex items-center gap-2 text-xs tracking-widest uppercase">
+    <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tracking-widest uppercase">
       <span
         className={isOpen ? "inline-block size-2 rounded-full bg-moss" : "inline-block size-2 rounded-full bg-bronze"}
         aria-hidden="true"
       />
-      {label ?? ui.hoursListed[lang]}
+      {status ? (
+        <>
+          <span>{status.label}</span>
+          <span className="text-muted">
+            {status.when} {status.time}
+          </span>
+        </>
+      ) : (
+        ui.hoursListed[lang]
+      )}
     </span>
   );
 }
