@@ -16,6 +16,7 @@ import {
   ui,
   type Lang,
 } from "@/content/site";
+import { studioStatus } from "@/lib/hours";
 
 export function TextLink({
   to,
@@ -70,15 +71,19 @@ function StudioFilm({ lang }: { lang: Lang }) {
   );
 }
 
+function isHome(path: string) {
+  return path === "/" || path === "/es" || path === "/es/" || path === "/zh" || path === "/zh/";
+}
+
 export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
   const path = useRouterState({ select: (state) => state.location.pathname });
-  const home = path === "/" || path === "/es" || path === "/es/" || path === "/zh" || path === "/zh/";
+  const home = isHome(path);
   return (
     <>
       <a className="skip" href="#content">
         {ui.skip[lang]}
       </a>
-      <Header lang={lang} />
+      <Header lang={lang} home={home} />
       {home ? <StudioFilm lang={lang} /> : null}
       <main id="content">{children}</main>
       <Footer lang={lang} />
@@ -88,7 +93,7 @@ export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
   );
 }
 
-function Header({ lang }: { lang: Lang }) {
+function Header({ lang, home }: { lang: Lang; home: boolean }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const paths = langPaths(pathname);
   const [panel, setPanel] = useState<"services" | "studios" | "mobile" | null>(null);
@@ -252,6 +257,7 @@ function Header({ lang }: { lang: Lang }) {
         </nav>
       )}
       <SearchDialog lang={lang} open={searchOpen} onOpenChange={setSearchOpen} />
+      {home ? <HeaderStatus lang={lang} /> : null}
     </header>
   );
 }
@@ -269,6 +275,33 @@ function PanelButton({
     <button type="button" className="btn" aria-expanded={pressed} onClick={onClick}>
       {children}
     </button>
+  );
+}
+
+
+function HeaderStatus({ lang }: { lang: Lang }) {
+  const loc = locations[0];
+  const [status, setStatus] = useState<ReturnType<typeof studioStatus> | null>(null);
+  useEffect(() => {
+    setStatus(studioStatus(loc.open, loc.close, lang));
+  }, [lang, loc.open, loc.close]);
+  const isOpen = status?.isOpen ?? false;
+  return (
+    <div className="header-status wrap">
+      <TextLink to={locationPath(lang, loc.slug)} className="status-pill">
+        <span className={isOpen ? "status-dot is-open" : "status-dot is-closed"} aria-hidden="true" />
+        {status ? (
+          <>
+            <span>{status.label}</span>
+            <span className="status-when">
+              {status.when} {status.time}
+            </span>
+          </>
+        ) : (
+          <span>{ui.hoursListed[lang]}</span>
+        )}
+      </TextLink>
+    </div>
   );
 }
 

@@ -354,7 +354,8 @@ html[lang="zh-Hans"] {
     flex-wrap: nowrap;
     align-items: center;
     column-gap: 0.5rem;
-    padding-block: 0.55rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.7rem;
   }
 
   .logo-home {
@@ -397,6 +398,20 @@ html[lang="zh-Hans"] {
     white-space: nowrap;
   }
 
+  .site-header .lang-switch {
+    border-width: 1.5px;
+    border-radius: 999px;
+  }
+
+  .site-header .lang-switch a,
+  .site-header .lang-switch span {
+    min-height: 2.75rem;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
   .lang-switch span[aria-current="page"] {
     background: var(--color-ink);
     color: var(--color-paper);
@@ -407,6 +422,70 @@ html[lang="zh-Hans"] {
     flex: 0 0 auto;
     align-items: center;
     gap: 0.25rem;
+  }
+
+  .header-status {
+    padding-bottom: 0.85rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.6rem;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(244, 239, 230, 0.45);
+    border-radius: 999px;
+    color: #f4efe6;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .status-pill:hover {
+    background: #f4efe6;
+    color: #070803;
+  }
+
+  .status-when {
+    color: rgba(244, 239, 230, 0.72);
+  }
+
+  .status-pill:hover .status-when {
+    color: #5c564e;
+  }
+
+  .status-dot {
+    width: 0.62rem;
+    height: 0.62rem;
+    flex: 0 0 auto;
+    border-radius: 999px;
+  }
+
+  .status-dot.is-open {
+    background: #b7d7a8;
+    box-shadow: 0 0 0 0 rgba(183, 215, 168, 0.75);
+    animation: status-glow 1.8s ease-out infinite;
+  }
+
+  .status-dot.is-closed {
+    background: #d7b48a;
+    box-shadow: 0 0 0.45rem rgba(215, 180, 138, 0.8);
+  }
+
+  @keyframes status-glow {
+    0% { box-shadow: 0 0 0 0 rgba(183, 215, 168, 0.7); }
+    70% { box-shadow: 0 0 0 0.45rem rgba(183, 215, 168, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(183, 215, 168, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .status-dot.is-open {
+      animation: none;
+      box-shadow: 0 0 0.45rem rgba(183, 215, 168, 0.85);
+    }
   }
 
   @media (min-width: 64rem) {
